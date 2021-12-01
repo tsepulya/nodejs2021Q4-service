@@ -1,0 +1,109 @@
+const {
+    getTasks,
+    getTask,
+    addTask,
+    deleteTask,
+    updateTask,
+  } = require('./handlers');
+  
+
+  // Board schema
+  const Task = {
+    type: 'object',
+    properties: {
+      id: { type: 'string' },
+      title: { type: 'string' },
+      order: { type: 'number' },
+      description: { type: 'string' },
+      userId: { type: ['string', 'null'], nullable: true },
+      boardId: { type: ['string', 'null'], nullable: true },
+      columnId: { type: ['string', 'null'], nullable: true },
+    },
+  }
+  
+  // Options for get all boards
+  const getTasksOpts = {
+    schema: {
+      response: {
+        200: {
+          type: 'array',
+          boards: Task,
+        },
+      },
+    },
+    handler: getTasks,
+  }
+  
+  const getTaskOpts = {
+    schema: {
+      response: {
+        200: Task,
+      },
+    },
+    handler: getTask,
+  }
+  
+  const postTaskOpts = {
+    schema: {
+      body: {
+        type: 'object',
+        required: ['title', 'order', 'description', 'userId', 'boardId', 'columnId'],
+        properties: {
+          title: { type: 'string' },
+          order: { type: 'number' },
+          description: { type: 'string' },
+          userId: { type: ['string', 'null'], nullable: true },
+          boardId: { type: ['string', 'null'], nullable: true },
+          columnId: { type: ['string', 'null'], nullable: true },
+        },
+      },
+      response: {
+        201: Task,
+      },
+    },
+    handler: addTask,
+  }
+  
+  const deleteTaskOpts = {
+    schema: {
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+          },
+        },
+      },
+    },
+    handler: deleteTask,
+  }
+  
+  const updateTaskOpts = {
+    schema: {
+      response: {
+        200: Task,
+      },
+    },
+    handler: updateTask,
+  }
+  
+  function taskRoutes(fastify, options, done) {
+    // Get all boards
+    fastify.get('/boards/:id/tasks', getTasksOpts)
+  
+    // Get single boards
+    fastify.get('/boards/:id/tasks/:taskId', getTaskOpts)
+  
+    // Add board
+    fastify.post('/boards/:id/tasks', postTaskOpts)
+  
+    // Delete board
+    fastify.delete('/boards/:id/tasks/:taskId', deleteTaskOpts)
+  
+    // Update board
+    fastify.put('/boards/:id/tasks/:taskId', updateTaskOpts)
+  
+    done()
+  }
+  
+  module.exports = taskRoutes

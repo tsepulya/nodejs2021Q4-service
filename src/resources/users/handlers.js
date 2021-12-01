@@ -1,19 +1,22 @@
 const { v4: uuidv4 } = require('uuid')
-let users = require('./db');
+// let users = require('./db');
+const usersService = require('./service');
 
 const getUsers = (req, reply) => {
   // reply.header("Content-Type", "application/json");
+  const users = usersService.getAllUsers();
   const usersShown = users.map(obj => ({...obj}));
   usersShown.forEach(elem => {
     const elem1 = elem;
     delete elem1.password;
   });
+  
   reply.send(usersShown);
 }
 
 const getUser = (req, reply) => {
   const { id } = req.params
-
+  const users = usersService.getAllUsers();
   const user = users.find((elem) => elem.id === id)
 
   reply.send(user)
@@ -27,8 +30,8 @@ const addUser = (req, reply) => {
     login,
     password
   }
-
-  users = [...users, user]
+  // users = [...users, user]
+  usersService.addInUsers(user);
 
   const userShown = {id: user.id, name: user.name, login: user.login};
 
@@ -38,7 +41,8 @@ const addUser = (req, reply) => {
 const deleteUser = (req, reply) => {
   const { id } = req.params
 
-  users = users.filter((user) => user.id !== id)
+  // users = users.filter((user) => user.id !== id)
+  usersService.deleteInUsers(id);
 
   reply.send({ message: `User ${id} has been removed` })
 }
@@ -47,11 +51,13 @@ const updateUser = (req, reply) => {
   const { id } = req.params
   const { name, login, password } = req.body
 
-  users = users.map((user) => (user.id === id ? { id, name, login, password } : user))
+  // users = users.map((user) => (user.id === id ? { id, name, login, password } : user))
 
-  const user = users.find((elem) => elem.id === id)
+  // const user = users.find((elem) => elem.id === id)
 
-  const userShown = {id: user.id, name: user.name, login: user.login};
+  usersService.changeInUsers(id, { name, login, password })
+
+  const userShown = { id, name, login };
 
   reply.send(userShown);
 }

@@ -47,7 +47,7 @@ const {
     schema: {
       body: {
         type: 'object',
-        required: ['title', 'order', 'description', 'userId', 'boardId', 'columnId'],
+        required: ['title', 'order', 'description', 'userId', 'boardId'],
         properties: {
           title: { type: 'string' },
           order: { type: 'number' },

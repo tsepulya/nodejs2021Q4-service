@@ -1,9 +1,3 @@
-// const app = require('./app');
-
-// app.listen(PORT, () =>
-//   console.log(`App is running on http://localhost:${PORT}`)
-// );
-
 const fastify = require('fastify')({ logger: true })
 const { PORT } = require('./common/config');
 
@@ -15,7 +9,8 @@ fastify.register(require('fastify-swagger'), {
   },
 })
 
-fastify.register(require('./users/routes'));
+fastify.register(require('./resources/users/routes'));
+fastify.register(require('./resources/boards/routes'));
 
 const start = async () => {
   try {

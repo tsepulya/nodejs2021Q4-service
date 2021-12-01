@@ -44,9 +44,11 @@ const deleteBoard = (req, reply) => {
   const { id } = req.params
   // boards = boards.filter((board) => board.id !== id)
   const tasks = tasksService.getAllTasks();
-  const task = tasks.find(elem => elem.boardId === id);
-  if (task) {
-    tasksService.deleteInTasks(task.id);
+  const tasksWithId = tasks.filter(elem => elem.boardId === id);
+  if (tasksWithId.length) {
+    tasksWithId.forEach(task => {
+      tasksService.deleteInTasks(task.id);
+    })
   }
 
   boardsService.deleteInBoards(id);

@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 // let users = require('./db');
 const usersService = require('./service');
+const tasksService = require('../tasks/service');
 
 const getUsers = (req, reply) => {
   // reply.header("Content-Type", "application/json");
@@ -40,7 +41,15 @@ const addUser = (req, reply) => {
 
 const deleteUser = (req, reply) => {
   const { id } = req.params
-
+  const tasks = tasksService.getAllTasks();
+  const tasksWithId = tasks.filter(elem => elem.userId === id);
+  if (tasksWithId.length) {
+    tasksWithId.forEach(task => {
+      const taskNew = task;
+      taskNew.userId = null;
+      tasksService.changeInTasks(task.id, taskNew);
+    })
+  }
   // users = users.filter((user) => user.id !== id)
   usersService.deleteInUsers(id);
 

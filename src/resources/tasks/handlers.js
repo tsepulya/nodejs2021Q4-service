@@ -20,16 +20,17 @@ const getTask = (req, reply) => {
 }
 
 const addTask = (req, reply) => {
+  const { id } = req.params;
   const { title, order, description } = req.body;
-  let { userId, boardId, columnId } = req.body;
+  let { userId, columnId } = req.body;
   const users = usersService.getAllUsers();
   const boards = boardsService.getAllBoards();
   if (!users.filter(elem => elem.id === userId).length) {
     userId = null;
   }
-  if (!boards.filter(elem => elem.id === boardId).length) {
-    boardId = null;
-  }
+  // if (!boards.filter(elem => elem.id === boardId).length) {
+  //   boardId = null;
+  // }
   boards.forEach(board => {
     if (!board.columns.filter(elem => elem.id === columnId).length) {
       columnId = null;
@@ -41,7 +42,7 @@ const addTask = (req, reply) => {
     order,
     description,
     userId,
-    boardId,
+    boardId: id,
     columnId
   }
 

@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require('uuid');
-// let boards = require('./db');
 const boardsService = require('./service');
 const tasksService = require('../tasks/service');
 
@@ -34,7 +33,6 @@ const addBoard = (req, reply) => {
     elem1.id = uuidv4();
   });
 
-  // boards = [...boards, board]
   boardsService.addInBoards(board);
 
   reply.code(201).send(board)
@@ -42,7 +40,6 @@ const addBoard = (req, reply) => {
 
 const deleteBoard = (req, reply) => {
   const { id } = req.params
-  // boards = boards.filter((board) => board.id !== id)
   const tasks = tasksService.getAllTasks();
   const tasksWithId = tasks.filter(elem => elem.boardId === id);
   if (tasksWithId.length) {
@@ -60,11 +57,6 @@ const deleteBoard = (req, reply) => {
 const updateBoard = (req, reply) => {
   const { id } = req.params
   const { title, columns } = req.body
-
-  // boards = boards.map((board) => (board.id === id ? { id, title, columns } : board))
-
-  // const board = boards.find((elem) => elem.id === id)
-
   boardsService.changeInBoards(id, {title, columns} )
 
   reply.send({ id, title, columns });

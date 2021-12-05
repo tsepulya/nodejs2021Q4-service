@@ -6,7 +6,6 @@ const {
     updateUser,
   } = require('./handlers');
   
-  // User schema
   const User = {
     type: 'object',
     properties: {
@@ -17,7 +16,6 @@ const {
     },
   }
   
-  // Options for get all users
   const getUsersOpts = {
     schema: {
       response: {
@@ -81,19 +79,14 @@ const {
   }
   
   function userRoutes(fastify, options, done) {
-    // Get all users
     fastify.get('/users', getUsersOpts)
   
-    // Get single users
     fastify.get('/users/:id', getUserOpts)
   
-    // Add user
     fastify.post('/users', postUserOpts)
   
-    // Delete user
     fastify.delete('/users/:id', deleteUserOpts)
   
-    // Update user
     fastify.put('/users/:id', updateUserOpts)
   
     done()

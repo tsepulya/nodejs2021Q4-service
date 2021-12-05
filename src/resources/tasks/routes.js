@@ -6,8 +6,6 @@ const {
     updateTask,
   } = require('./handlers');
   
-
-  // Board schema
   const Task = {
     type: 'object',
     properties: {
@@ -20,8 +18,7 @@ const {
       columnId: { type: ['string', 'null'], nullable: true },
     },
   }
-  
-  // Options for get all boards
+
   const getTasksOpts = {
     schema: {
       response: {
@@ -88,19 +85,14 @@ const {
   }
   
   function taskRoutes(fastify, options, done) {
-    // Get all boards
     fastify.get('/boards/:id/tasks', getTasksOpts)
   
-    // Get single boards
     fastify.get('/boards/:id/tasks/:taskId', getTaskOpts)
   
-    // Add board
     fastify.post('/boards/:id/tasks', postTaskOpts)
   
-    // Delete board
     fastify.delete('/boards/:id/tasks/:taskId', deleteTaskOpts)
   
-    // Update board
     fastify.put('/boards/:id/tasks/:taskId', updateTaskOpts)
   
     done()

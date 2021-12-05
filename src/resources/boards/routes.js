@@ -6,7 +6,6 @@ const {
     updateBoard,
   } = require('./handlers');
   
-  // Column schema
   const Column = {
     type: 'object',
     properties: {
@@ -16,7 +15,6 @@ const {
     },
   }
 
-  // Board schema
   const Board = {
     type: 'object',
     properties: {
@@ -26,7 +24,6 @@ const {
     },
   }
   
-  // Options for get all boards
   const getBoardsOpts = {
     schema: {
       response: {
@@ -89,19 +86,14 @@ const {
   }
   
   function boardRoutes(fastify, options, done) {
-    // Get all boards
     fastify.get('/boards', getBoardsOpts)
   
-    // Get single boards
     fastify.get('/boards/:id', getBoardOpts)
   
-    // Add board
     fastify.post('/boards', postBoardOpts)
   
-    // Delete board
     fastify.delete('/boards/:id', deleteBoardOpts)
   
-    // Update board
     fastify.put('/boards/:id', updateBoardOpts)
   
     done()

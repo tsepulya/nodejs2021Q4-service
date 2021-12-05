@@ -1,10 +1,8 @@
 const { v4: uuidv4 } = require('uuid')
-// let users = require('./db');
 const usersService = require('./service');
 const tasksService = require('../tasks/service');
 
 const getUsers = (req, reply) => {
-  // reply.header("Content-Type", "application/json");
   const users = usersService.getAllUsers();
   const usersShown = users.map(obj => ({...obj}));
   usersShown.forEach(elem => {
@@ -31,7 +29,6 @@ const addUser = (req, reply) => {
     login,
     password
   }
-  // users = [...users, user]
   usersService.addInUsers(user);
 
   const userShown = {id: user.id, name: user.name, login: user.login};
@@ -50,7 +47,6 @@ const deleteUser = (req, reply) => {
       tasksService.changeInTasks(task.id, taskNew);
     })
   }
-  // users = users.filter((user) => user.id !== id)
   usersService.deleteInUsers(id);
 
   reply.send({ message: `User ${id} has been removed` })
@@ -59,10 +55,6 @@ const deleteUser = (req, reply) => {
 const updateUser = (req, reply) => {
   const { id } = req.params
   const { name, login, password } = req.body
-
-  // users = users.map((user) => (user.id === id ? { id, name, login, password } : user))
-
-  // const user = users.find((elem) => elem.id === id)
 
   usersService.changeInUsers(id, { name, login, password })
 

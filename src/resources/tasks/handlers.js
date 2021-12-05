@@ -28,9 +28,6 @@ const addTask = (req, reply) => {
   if (!users.filter(elem => elem.id === userId).length) {
     userId = null;
   }
-  // if (!boards.filter(elem => elem.id === boardId).length) {
-  //   boardId = null;
-  // }
   boards.forEach(board => {
     if (!board.columns.filter(elem => elem.id === columnId).length) {
       columnId = null;
@@ -46,7 +43,6 @@ const addTask = (req, reply) => {
     columnId
   }
 
-  // tasks = [...tasks, task]
   tasksService.addInTasks(task);
 
   reply.code(201).send(task);
@@ -55,7 +51,6 @@ const addTask = (req, reply) => {
 const deleteTask = (req, reply) => {
   const { taskId } = req.params
 
-  // tasks = tasks.filter((task) => task.id !== taskId)
   tasksService.deleteInTasks(taskId);
 
   reply.send({ message: `Board ${taskId} has been removed` })
@@ -64,14 +59,6 @@ const deleteTask = (req, reply) => {
 const updateTask = (req, reply) => {
   const { taskId } = req.params
   const { title, order, description, userId, boardId, columnId } = req.body;
-
-
-
-  // boards = boards.map((board) => (board.id === id ? { id, title, columns } : board))
-
-  // const board = boards.find((elem) => elem.id === id)
-
-  // reply.send(board);
 
   tasksService.changeInTasks(taskId, { title, order, description, userId, boardId, columnId } );
 

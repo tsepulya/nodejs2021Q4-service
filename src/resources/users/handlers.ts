@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 // const tasksService = require('../tasks/service');
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getAllUsers, addInUsers, deleteInUsers, changeInUsers } from './service';
-import { UserNew } from "../../common/types";
+import { CustomRequest, UserNew } from "../../common/types";
 
 export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
   const users = getAllUsers();
@@ -16,8 +16,8 @@ export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
   reply.send(usersShown);
 }
 
-export const getUser = (req: FastifyRequest, reply: FastifyReply) => {
-  const { id } = <FastifyRequest> req.params;
+export const getUser = (req: CustomRequest, reply: FastifyReply) => {
+  const { id } = req.params;
   const users = getAllUsers();
   const user = users.find((elem) => elem.id === id)
 
@@ -39,9 +39,8 @@ export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
   reply.code(201).send(userShown)
 }
 
-export const deleteUser = (req: FastifyRequest, reply: FastifyReply) => {
-  const params = <FastifyRequest> req.params;
-  const { id } = params;
+export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
+  const { id } = req.params;
 //   const tasks = tasksService.getAllTasks();
 //   const tasksWithId = tasks.filter(elem => elem.userId === id);
 //   if (tasksWithId.length) {
@@ -56,10 +55,9 @@ export const deleteUser = (req: FastifyRequest, reply: FastifyReply) => {
   reply.send({ message: `User ${id} has been removed` })
 }
 
-export const updateUser = (req: FastifyRequest, reply: FastifyReply) => {
-  const params = <FastifyRequest> req.params;
-  const { id } = params;
-  const { name, login, password} = <UserNew> req.body;
+export const updateUser = (req: CustomRequest, reply: FastifyReply) => {
+  const { id } = req.params;
+  const { name, login, password} = req.body;
 
   changeInUsers(id, { name, login, password })
 

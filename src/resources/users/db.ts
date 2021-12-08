@@ -1,3 +1,3 @@
-import { User } from '../../common/types';
+import { User } from './types';
 
 export const users: Array<User> = [];

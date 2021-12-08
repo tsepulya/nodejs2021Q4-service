@@ -1,5 +1,5 @@
 import { users } from "./db";
-import { User, UserNew } from '../../common/types';
+import { User } from './types';
 
 export const getAllUsers = () => users;
 
@@ -11,7 +11,7 @@ export const deleteInUsers = (id: string) => {
     users.splice(index, 1);
 }
 
-export const changeInUsers = (id: string, newUser: UserNew) => {
+export const changeInUsers = (id: string, newUser: User) => {
     const userNew = users.find(elem => elem.id === id);
     if (userNew) {
         userNew.name = newUser.name;

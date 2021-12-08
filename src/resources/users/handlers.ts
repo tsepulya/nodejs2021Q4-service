@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 // const tasksService = require('../tasks/service');
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getAllUsers, addInUsers, deleteInUsers, changeInUsers } from './service';
-import { CustomRequest, UserNew } from "../../common/types";
+import { CustomRequest, User } from "./types";
 
 export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
   const users = getAllUsers();
@@ -25,7 +25,7 @@ export const getUser = (req: CustomRequest, reply: FastifyReply) => {
 }
 
 export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
-  const { name, login, password} = <UserNew> req.body;
+  const { name, login, password} = <User> req.body;
   const user = {
     id: uuidv4(),
     name,

@@ -4,6 +4,7 @@ import fastify, {FastifyInstance} from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
 // import fastifySwagger from "fastify-swagger";
 import { userRoutes } from './resources/users/routes';
+import { boardRoutes } from './resources/boards/routes';
 
 const PORT = 4000; /// /////////////////////////////////////////////////!!!!!!!!!!!
 
@@ -24,7 +25,7 @@ const server: FastifyInstance<
 // })
 
 server.register(userRoutes);
-// fastify.register(require('./resources/boards/routes'));
+server.register(boardRoutes);
 // fastify.register(require('./resources/tasks/routes'));
 
 const start = async () => {

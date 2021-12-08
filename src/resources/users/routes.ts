@@ -79,9 +79,16 @@ import {
     handler: updateUser,
   }
   
-
+/**
+ * Create user router
+ * @param fastify - fastify instance
+ * @param options - fastify server options
+ * @param done - callback
+ * @returns Create user router
+ */
   
 export function userRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
+
     fastify.get('/users', getUsersOpts)
   
     fastify.get('/users/:id', getUserOpts)

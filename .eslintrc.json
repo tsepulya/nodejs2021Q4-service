@@ -22,6 +22,9 @@
       }
     }
   },
+  "plugins": [
+    "eslint-plugin-tsdoc"
+  ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
@@ -37,6 +40,7 @@
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
-    "node/no-missing-import": "off"
+    "node/no-missing-import": "off",
+    "tsdoc/syntax": "warn"
   }
 }

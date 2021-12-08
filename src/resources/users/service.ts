@@ -18,7 +18,7 @@ export const addInUsers = (user: User) => users.push(user);
 
 /**
  * Delete user from the array of users
- * @param id - user`s id
+ * @param id - user's id
  * @returns Delete user with such id from array of users
  */
 
@@ -28,10 +28,10 @@ export const deleteInUsers = (id: string) => {
 }
 
 /**
- * Change user`s properties in the array of users
- * @param id - user`s id
+ * Change user's properties in the array of users
+ * @param id - user's id
  * @param newUser - user (type <User>) with changed properties
- * @returns change user`s properties in the array of users
+ * @returns change user's properties in the array of users
  */
 
 export const changeInUsers = (id: string, newUser: User) => {

@@ -84,6 +84,15 @@ import {
     },
     handler: updateTask,
   }
+
+  /**
+ * Create task router
+ * @param fastify - fastify instance
+ * @param options - fastify server options
+ * @param done - callback
+ * @returns Create task router
+ */
+  
   
 export function taskRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
     fastify.get('/boards/:id/tasks', getTasksOpts)

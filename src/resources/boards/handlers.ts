@@ -4,10 +4,25 @@ import { deleteInTasks, getAllTasks } from "../tasks/service";
 import { getAllBoards, addInBoards, deleteInBoards, changeInBoards } from "./service";
 import { CustomRequest } from "./types";
 
+/**
+ * handler for get method for boards router
+ * @param req - server request
+ * @param reply - server response
+ * @returns - array of boards
+ */
+
 export const getBoards = (req: FastifyRequest, reply: FastifyReply) => {
   const boards = getAllBoards();
   reply.send(boards);
 }
+
+/**
+ * handler for get method for boards router
+ * @param req - server request (with id params)
+ * @param reply - server response
+ * @returns - boards
+ * @throws {@link NotFound} if board wasn't found
+ */
 
 export const getBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
@@ -19,8 +34,14 @@ export const getBoard = (req: CustomRequest, reply: FastifyReply) => {
     reply.code(404);
     reply.send('Not found');
   }
-
 }
+
+/**
+ * handler for post method for boards router
+ * @param req - server request (with Board as body)
+ * @param reply - server response
+ * @returns - new board
+ */
 
 export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { title, columns } = req.body
@@ -40,6 +61,13 @@ export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
   reply.code(201).send(board)
 }
 
+/**
+ * handler for delete method for boards router
+ * @param req - server request (with id params)
+ * @param reply - server response
+ * @returns - message, that board was deleted
+ */
+
 export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
   
@@ -58,6 +86,13 @@ export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
 
   reply.send({ message: `Board ${id} has been removed` })
 }
+
+/**
+ * handler for put method for boards router
+ * @param req - server request (with id params, Board as body)
+ * @param reply - server response
+ * @returns - changed board
+ */
 
 export const updateBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params

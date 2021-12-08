@@ -85,6 +85,14 @@ import {
     },
     handler: updateBoard,
   }
+
+    /**
+ * Create board router
+ * @param fastify - fastify instance
+ * @param options - fastify server options
+ * @param done - callback
+ * @returns Create board router
+ */
   
   export function boardRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
     fastify.get('/boards', getBoardsOpts)

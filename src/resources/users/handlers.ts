@@ -4,6 +4,13 @@ import { getAllUsers, addInUsers, deleteInUsers, changeInUsers } from './service
 import { CustomRequest, User } from "./types";
 import { changeInTasks, getAllTasks } from "../tasks/service";
 
+/**
+ * handler for get method for user router
+ * @param req - server request
+ * @param reply - server response
+ * @returns - array of users
+ */
+
 export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
   const users = getAllUsers();
   const usersShown = users.map(obj => ({...obj}));
@@ -15,6 +22,13 @@ export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
   reply.send(usersShown);
 }
 
+/**
+ * handler for get method for user router
+ * @param req - server request (with id params)
+ * @param reply - server response
+ * @returns - user
+ */
+
 export const getUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
   const users = getAllUsers();
@@ -22,6 +36,13 @@ export const getUser = (req: CustomRequest, reply: FastifyReply) => {
 
   reply.send(user);
 }
+
+/**
+ * handler for post method for user router
+ * @param req - server request (with User as body)
+ * @param reply - server response
+ * @returns - new user
+ */
 
 export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
   const { name, login, password} = <User> req.body;
@@ -37,6 +58,13 @@ export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
 
   reply.code(201).send(userShown)
 }
+
+/**
+ * handler for delete method for user router
+ * @param req - server request (with id params)
+ * @param reply - server response
+ * @returns - message, that person was deleted
+ */
 
 export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
@@ -55,6 +83,13 @@ export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
 
   reply.send({ message: `User ${id} has been removed` })
 }
+
+/**
+ * handler for put method for user router
+ * @param req - server request (with id params, User as body)
+ * @param reply - server response
+ * @returns - changed user
+ */
 
 export const updateUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;

@@ -18,7 +18,7 @@ export const addInBoards = (board: Board) => boards.push(board);
 
 /**
  * Delete board from the array of boards
- * @param id - board`s id
+ * @param id - board's id
  * @returns Delete board with such id from array of boards
  */
 
@@ -28,12 +28,11 @@ export const deleteInBoards = (id: string) => {
 }
 
 /**
- * Change board`s properties in the array of boards
- * @param id - board`s id
+ * Change board's properties in the array of boards
+ * @param id - board's id
  * @param newBoard - board (type <Board>) with changed properties
- * @returns change board`s properties in the array of boards
+ * @returns change board's properties in the array of boards
  */
-
 
 export const changeInBoards = (id: string, newBoard: Board) => {
     const boardNew = boards.find(elem => elem.id === id);

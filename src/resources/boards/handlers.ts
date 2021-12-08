@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { v4 as uuidv4 } from "uuid";
+import { deleteInTasks, getAllTasks } from "../tasks/service";
 import { getAllBoards, addInBoards, deleteInBoards, changeInBoards } from "./service";
 import { CustomRequest } from "./types";
 
@@ -41,13 +42,16 @@ export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
 
 export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
-//   const tasks = getAllTasks();
-//   const tasksWithId = tasks.filter(elem => elem.boardId === id);
-//   if (tasksWithId.length) {
-//     tasksWithId.forEach(task => {
-//       tasksService.deleteInTasks(task.id);
-//     })
-//   }
+  
+  const tasks = getAllTasks();
+  const tasksWithId = tasks.filter(elem => elem.boardId === id);
+  if (tasksWithId.length) {
+    tasksWithId.forEach(task => {
+      if (task.id) {
+        deleteInTasks(task.id);
+      }
+    })
+  }
 
   deleteInBoards(id);
 

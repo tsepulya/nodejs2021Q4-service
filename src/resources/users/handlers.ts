@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-// const usersService = require('./service.ts');
-// const tasksService = require('../tasks/service');
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { getAllUsers, addInUsers, deleteInUsers, changeInUsers } from './service';
 import { CustomRequest, User } from "./types";
+import { changeInTasks, getAllTasks } from "../tasks/service";
 
 export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
   const users = getAllUsers();
@@ -41,15 +40,17 @@ export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
 
 export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
-//   const tasks = tasksService.getAllTasks();
-//   const tasksWithId = tasks.filter(elem => elem.userId === id);
-//   if (tasksWithId.length) {
-//     tasksWithId.forEach(task => {
-//       const taskNew = task;
-//       taskNew.userId = null;
-    //   tasksService.changeInTasks(task.id, taskNew);
-//     })
-//   }
+  const tasks = getAllTasks();
+  const tasksWithId = tasks.filter(elem => elem.userId === id);
+  if (tasksWithId.length) {
+    tasksWithId.forEach(task => {
+      const taskNew = task;
+      taskNew.userId = null;
+      if (task.id) {
+        changeInTasks(task.id, taskNew);
+      }
+    })
+  }
   deleteInUsers(id);
 
   reply.send({ message: `User ${id} has been removed` })

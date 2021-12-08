@@ -4,13 +4,13 @@ export type Task = {
     title: string;
     order: number;
     description: string;
-    userId: string;
-    boardId: string;
-    columnId: string;
-    id: string;
+    userId: string | null;
+    boardId: string | null;
+    columnId: string | null;
+    id?: string;
 };
 
 export type CustomRequest = FastifyRequest<{
     Body: Task;
-    Params: {id: string};
+    Params: {taskId: string, id: string};
 }>

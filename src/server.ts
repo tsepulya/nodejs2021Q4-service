@@ -4,6 +4,7 @@ import { userRoutes } from './resources/users/routes';
 import { boardRoutes } from './resources/boards/routes';
 import { taskRoutes } from "./resources/tasks/routes";
 import { PORT } from "./common/config";
+import log from "./logging";
 
 /**
  * create fastify instance with some config
@@ -13,7 +14,8 @@ const server: FastifyInstance<
   Server,
   IncomingMessage,
   ServerResponse
-> = fastify({logger:true});
+> = fastify({logger: log
+});
 
 
 /**

@@ -22,9 +22,28 @@ export const server: FastifyInstance<
  * activate plugins - a set of routes: user, boards, task
  */
 
+// eslint-disable-next-line func-names
+// eslint-disable-next-line no-unused-vars
+server.setNotFoundHandler((request, reply) => {
+  reply.status(404).send(`Route ${request.url} not found`);
+  log.error(`Route ${request.url} not found`);
+})
+
 server.register(userRoutes);
 server.register(boardRoutes);
 server.register(taskRoutes);
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line no-unused-vars
+server.setErrorHandler(function (error, request, reply) {
+  this.log.error(error)
+  const status = <number>error.statusCode;
+  if (error.validation) {
+    reply.status(400).send(error.message);
+    log.error(error);
+ }  log.error(error);
+    reply.status(status).send(error.message);
+})
 
 /**
  * adjust fastify server
@@ -53,5 +72,3 @@ const start = async () => {
 
 start();
 
-// server.log.warn('Example warn log');
-// server.log.error('Example warn error');

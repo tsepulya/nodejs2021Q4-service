@@ -1,5 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { v4 as uuidv4 } from "uuid";
+import CustomError from "../../errors";
+import { log } from "../../logging";
 import { deleteInTasks, getAllTasks } from "../tasks/service";
 import { getAllBoards, addInBoards, deleteInBoards, changeInBoards } from "./service";
 import { CustomRequest } from "./types";
@@ -32,7 +34,8 @@ export const getBoard = (req: CustomRequest, reply: FastifyReply) => {
     reply.send(board)
   } else {
     reply.code(404);
-    reply.send('Not found');
+    log.error(`Board with such ID ${id} doesn't exist`);
+    throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
   }
 }
 
@@ -71,6 +74,14 @@ export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
 export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
   
+  const boards = getAllBoards();
+  const board = boards.find((elem) => elem.id === id)
+  if (!board) {
+    reply.code(404);
+    log.error(`Board with such ID ${id} doesn't exist`);
+    throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
+  }
+
   const tasks = getAllTasks();
   const tasksWithId = tasks.filter(elem => elem.boardId === id);
   if (tasksWithId.length) {
@@ -96,6 +107,15 @@ export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
 
 export const updateBoard = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
+
+  const boards = getAllBoards();
+  const board = boards.find((elem) => elem.id === id)
+  if (!board) {
+    reply.code(404);
+    log.error(`Board with such ID ${id} doesn't exist`);
+    throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
+  }
+
   const { title, columns } = req.body
   changeInBoards(id, {title, columns} )
 

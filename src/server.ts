@@ -4,13 +4,13 @@ import { userRoutes } from './resources/users/routes';
 import { boardRoutes } from './resources/boards/routes';
 import { taskRoutes } from "./resources/tasks/routes";
 import { PORT } from "./common/config";
-import log from "./logging";
+import { log } from "./logging";
 
 /**
  * create fastify instance with some config
  */
 
-const server: FastifyInstance<
+export const server: FastifyInstance<
   Server,
   IncomingMessage,
   ServerResponse
@@ -52,3 +52,6 @@ const start = async () => {
 }
 
 start();
+
+// server.log.warn('Example warn log');
+// server.log.error('Example warn error');

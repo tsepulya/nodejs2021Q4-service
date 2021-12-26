@@ -1,17 +1,16 @@
-// import * as fs from 'fs';
 import pino, { TransportMultiOptions } from 'pino';
-// import pretty from 'pino-pretty'
 
 const transport = pino.transport(<TransportMultiOptions>{
   targets: [
   {
     level: 'info',
-    target: 'pino-pretty'
+    target: 'pino-pretty',
+    options: { ignore: 'pid,hostname' }
   }, 
   {
     level: 'info',
     target: 'pino/file',
-    options: { destination: './all.txt'}
+    options: { destination: './all.txt', mkdir: true}
   }, 
   {
     level: 'warn',
@@ -20,18 +19,21 @@ const transport = pino.transport(<TransportMultiOptions>{
   {
     level: 'warn',
     target: 'pino/file',
-    options: { destination: './all.txt'}
+    options: { destination: './all.txt', mkdir: true}
   }, 
-  {
-    level: 'error',
-    target: 'pino-pretty'
-  }, 
+  // {
+  //   level: 'error',
+  //   target: 'pino-pretty'
+  // }, 
   {
     level: 'error',
     target: 'pino/file',
-    options: { destination: './errors.txt' }
-  }]
+    options: { destination: './errors.txt', mkdir: true }
+  }],
+  options: {
+    ignore: 'pid,hostname',
+    colorize: true,
+  }
 })
 
 export const log = pino(transport);
-

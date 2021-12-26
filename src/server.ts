@@ -17,13 +17,20 @@ export const server: FastifyInstance<
 > = fastify({logger: log
 });
 
-process.on('uncaughtException', ()=> {
-  log.error(`We got uncaughtException`);
-});
-process.on('unhandledRejection', () => {
-  log.error(`We got unhandledRejection`);
-});
+const handleUncaughtException = () => {
+  process.on('uncaughtException', ()=> {
+    log.error(`We got uncaughtException`);
+  });
+};
 
+const handleUnhandledRejection = () => {
+  process.on('unhandledRejection', () => {
+    log.error(`We got unhandledRejection`);
+  });
+}
+
+handleUncaughtException();
+handleUnhandledRejection();
 
 /**
  * activate plugins - a set of routes: user, boards, task

@@ -5,4 +5,12 @@ services:
     image: docker-img
     build: .
     ports:
-      - "4000:4000"
+      - ${PORT}:${PORT}
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./:/app
+
+networks:
+  backend-net:
+    driver: bridge

@@ -70,7 +70,7 @@ const start = async () => {
       * Run the server
       * @param PORT - the name of a port
     */
-    await server.listen(PORT)
+    await server.listen(PORT, '0.0.0.0')
   } catch (error) {
 
     /**

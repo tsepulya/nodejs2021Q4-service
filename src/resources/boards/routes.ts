@@ -1,10 +1,11 @@
-const {
+import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import {
     getBoards,
     getBoard,
     addBoard,
     deleteBoard,
     updateBoard,
-  } = require('./handlers');
+  } from './handlers';
   
   const Column = {
     type: 'object',
@@ -84,8 +85,16 @@ const {
     },
     handler: updateBoard,
   }
+
+    /**
+ * Create board router
+ * @param fastify - fastify instance
+ * @param options - fastify server options
+ * @param done - callback
+ * @returns Create board router
+ */
   
-  function boardRoutes(fastify, options, done) {
+  export function boardRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
     fastify.get('/boards', getBoardsOpts)
   
     fastify.get('/boards/:id', getBoardOpts)
@@ -99,4 +108,3 @@ const {
     done()
   }
   
-  module.exports = boardRoutes

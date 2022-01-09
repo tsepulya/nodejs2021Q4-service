@@ -1,10 +1,11 @@
-const {
+import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import {
     getUsers,
     getUser,
     addUser,
     deleteUser,
     updateUser,
-  } = require('./handlers');
+  } from './handlers';
   
   const User = {
     type: 'object',
@@ -78,7 +79,16 @@ const {
     handler: updateUser,
   }
   
-  function userRoutes(fastify, options, done) {
+/**
+ * Create user router
+ * @param fastify - fastify instance
+ * @param options - fastify server options
+ * @param done - callback
+ * @returns Create user router
+ */
+  
+export function userRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
+
     fastify.get('/users', getUsersOpts)
   
     fastify.get('/users/:id', getUserOpts)
@@ -90,6 +100,4 @@ const {
     fastify.put('/users/:id', updateUserOpts)
   
     done()
-  }
-  
-  module.exports = userRoutes
+}

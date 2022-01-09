@@ -1,10 +1,11 @@
-const {
+import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import {
     getTasks,
     getTask,
     addTask,
     deleteTask,
     updateTask,
-  } = require('./handlers');
+  } from './handlers';
   
   const Task = {
     type: 'object',
@@ -83,8 +84,17 @@ const {
     },
     handler: updateTask,
   }
+
+  /**
+ * Create task router
+ * @param fastify - fastify instance
+ * @param options - fastify server options
+ * @param done - callback
+ * @returns Create task router
+ */
   
-  function taskRoutes(fastify, options, done) {
+  
+export function taskRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
     fastify.get('/boards/:id/tasks', getTasksOpts)
   
     fastify.get('/boards/:id/tasks/:taskId', getTaskOpts)
@@ -98,4 +108,3 @@ const {
     done()
   }
   
-  module.exports = taskRoutes

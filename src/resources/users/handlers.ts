@@ -3,6 +3,8 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { getAllUsers, addInUsers, deleteInUsers, changeInUsers } from './service';
 import { CustomRequest, User } from "./types";
 import { changeInTasks, getAllTasks } from "../tasks/service";
+import CustomError from "../../errors";
+import { log } from "../../logging";
 
 /**
  * handler for get method for user router
@@ -33,7 +35,11 @@ export const getUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
   const users = getAllUsers();
   const user = users.find((elem) => elem.id === id)
-
+  if (!user) {
+    reply.code(404);
+    log.error(`User with such ID ${id} doesn't exist`);
+    throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
+  }
   reply.send(user);
 }
 
@@ -68,6 +74,15 @@ export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
 
 export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
+
+  const users = getAllUsers();
+  const user = users.find((elem) => elem.id === id)
+  if (!user) {
+    reply.code(404);
+    log.error(`User with such ID ${id} doesn't exist`);
+    throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
+  }
+
   const tasks = getAllTasks();
   const tasksWithId = tasks.filter(elem => elem.userId === id);
   if (tasksWithId.length) {
@@ -94,6 +109,14 @@ export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
 export const updateUser = (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
   const { name, login, password} = req.body;
+
+  const users = getAllUsers();
+  const user = users.find((elem) => elem.id === id)
+  if (!user) {
+    reply.code(404);
+    log.error(`User with such ID ${id} doesn't exist`);
+    throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
+  }
 
   changeInUsers(id, { name, login, password })
 

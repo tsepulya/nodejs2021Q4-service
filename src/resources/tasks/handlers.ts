@@ -1,5 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { v4 as uuidv4 } from "uuid";
+import CustomError from "../../errors";
+import { log } from "../../logging";
 import { getAllBoards } from "../boards/service";
 import { getAllUsers } from "../users/service";
 import { addInTasks, changeInTasks, deleteInTasks, getAllTasks } from "./service";
@@ -32,7 +34,8 @@ export const getTask = (req: CustomRequest, reply: FastifyReply) => {
     reply.send(task)
   } else {
     reply.code(404);
-    reply.send("Not found");
+    log.error(`Task with such ID ${taskId} doesn't exist`);
+    throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
   }
 }
 
@@ -82,6 +85,14 @@ export const addTask = (req: CustomRequest, reply: FastifyReply) => {
 export const deleteTask = (req: CustomRequest, reply: FastifyReply) => {
   const { taskId } = req.params
 
+  const tasks = getAllTasks();
+  const task = tasks.find((elem) => elem.id === taskId);
+  if (!task) {
+    reply.code(404);
+    log.error(`Task with such ID ${taskId} doesn't exist`);
+    throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
+  }
+
   deleteInTasks(taskId);
 
   reply.send({ message: `Board ${taskId} has been removed` })
@@ -97,6 +108,14 @@ export const deleteTask = (req: CustomRequest, reply: FastifyReply) => {
 export const updateTask = (req: CustomRequest, reply: FastifyReply) => {
   const { taskId } = req.params
   const { title, order, description, userId, boardId, columnId } = req.body;
+
+  const tasks = getAllTasks();
+  const task = tasks.find((elem) => elem.id === taskId);
+  if (!task) {
+    reply.code(404);
+    log.error(`Task with such ID ${taskId} doesn't exist`);
+    throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
+  }
 
   changeInTasks(taskId, { title, order, description, userId, boardId, columnId } );
 

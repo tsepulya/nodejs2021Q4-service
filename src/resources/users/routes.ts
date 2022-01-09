@@ -98,6 +98,6 @@ export function userRoutes(fastify: FastifyInstance, options: FastifyServerOptio
     fastify.delete('/users/:id', deleteUserOpts)
   
     fastify.put('/users/:id', updateUserOpts)
-  
+ 
     done()
 }

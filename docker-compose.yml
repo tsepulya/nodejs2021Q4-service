@@ -11,6 +11,8 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes: 
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
   app:
     image: docker-img
     build: .
@@ -21,11 +23,14 @@ services:
     volumes:
       - ./:/app
       - vol-logs:/logs
+    networks:
+      - app-network
+    command: npm start
     depends_on:
       - postgres
 
 networks:
-  backend-net:
+  app-network:
     driver: bridge
 
 volumes:

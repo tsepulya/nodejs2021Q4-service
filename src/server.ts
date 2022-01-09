@@ -39,7 +39,7 @@ handleUnhandledRejection();
 // eslint-disable-next-line func-names
 // eslint-disable-next-line no-unused-vars
 server.setNotFoundHandler((request, reply) => {
-  reply.status(404).send(`Route ${request.url} not found`);
+  reply.status(404).send(`Route ${request.url} not found.`);
   log.error(`Route ${request.url} not found`);
 })
 

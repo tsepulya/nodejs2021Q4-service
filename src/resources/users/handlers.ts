@@ -5,6 +5,7 @@ import { CustomRequest, User } from "./types";
 import CustomError from "../../errors";
 import { log } from "../../logging";
 import { UserDB } from "../../entity/UserDB";
+import { TaskDB } from "../../entity/TaskDB";
 
 /**
  * handler for get method for user router
@@ -120,6 +121,10 @@ export const deleteUser = async (req: CustomRequest, reply: FastifyReply) => {
 
   const userRepository = getRepository(UserDB);
   await userRepository.delete(id);
+
+  const taskRepository = getRepository(TaskDB);
+  await taskRepository.update({ userId: id }, { userId: null });
+
   reply.send({ message: `User ${id} has been removed` })
 }
 

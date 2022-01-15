@@ -7,5 +7,9 @@
     "database": "postgres",
     "entities": ["src/entity/*.ts"],
     "logging": true,
-    "synchronize": false
+    "synchronize": false,
+    "migrations": ["src/migration/*.ts"],
+    "cli": {
+        "migrationsDir": "src/migration"
+    }
 }

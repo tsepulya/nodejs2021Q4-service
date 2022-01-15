@@ -1,6 +1,6 @@
 import {Entity, Column, PrimaryColumn} from "typeorm";
 
-@Entity()
+@Entity({ name: "task_db" })
 export class TaskDB {
 
     @PrimaryColumn()

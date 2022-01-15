@@ -2,7 +2,7 @@
 import {Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { ColumnDB } from "./ColumnDB";
 
-@Entity()
+@Entity({ name: "board_db" })
 export class BoardDB {
 
     @PrimaryColumn()

@@ -12,7 +12,7 @@ const connectionOptions = {
     entities: [process.env.POSTGRES_ENTITIES] || ["src/entity/*.ts"] || ["./entity/*.ts"],
     migrations: [process.env.POSTGRES_MIGRATIONS] || ["src/migration/*.ts"] || ["./migration/*.ts"],
     cli: {
-      migrationsDir: process.env.POSTGRES_MIGRATIONS || "src/migration/*.ts" || "./migration/*.ts"
+      migrationsDir: process.env.POSTGRES_MIGRATIONS_DIR || "src/migration/*.ts" || "./migration/*.ts"
   }
   } as ConnectionOptions;
 

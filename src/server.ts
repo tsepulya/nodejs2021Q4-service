@@ -18,7 +18,9 @@ export const server: FastifyInstance<
 > = fastify({logger: log
 });
 
+// eslint-disable-next-line no-unused-vars
 
+createConnection();
 
 const handleUncaughtException = () => {
   process.on('uncaughtException', ()=> {
@@ -47,7 +49,7 @@ server.setNotFoundHandler((request, reply) => {
 })
 
 // eslint-disable-next-line no-unused-vars
-createConnection()
+
   // eslint-disable-next-line no-unused-vars
   // const userRepository = connection.getRepository(UserDB);
 

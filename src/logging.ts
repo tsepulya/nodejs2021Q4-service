@@ -10,7 +10,7 @@ const transport = pino.transport(<TransportMultiOptions>{
   {
     level: 'info',
     target: 'pino/file',
-    options: { destination: './all.txt', mkdir: true}
+    options: { destination: './logs/all.txt', mkdir: true}
   }, 
   {
     level: 'warn',
@@ -19,16 +19,12 @@ const transport = pino.transport(<TransportMultiOptions>{
   {
     level: 'warn',
     target: 'pino/file',
-    options: { destination: './all.txt', mkdir: true}
+    options: { destination: './logs/all.txt', mkdir: true}
   }, 
-  // {
-  //   level: 'error',
-  //   target: 'pino-pretty'
-  // }, 
   {
     level: 'error',
     target: 'pino/file',
-    options: { destination: './errors.txt', mkdir: true }
+    options: { destination: './logs/errors.txt', mkdir: true }
   }],
   options: {
     ignore: 'pid,hostname',

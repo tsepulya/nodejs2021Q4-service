@@ -39,7 +39,7 @@ handleUnhandledRejection();
 // eslint-disable-next-line func-names
 // eslint-disable-next-line no-unused-vars
 server.setNotFoundHandler((request, reply) => {
-  reply.status(404).send(`Route ${request.url} not found`);
+  reply.status(404).send(`Route ${request.url} not found.`);
   log.error(`Route ${request.url} not found`);
 })
 
@@ -71,18 +71,17 @@ const start = async () => {
       * @param PORT - the name of a port
     */
 
-    await server.listen(PORT)
+    await server.listen(PORT, '0.0.0.0')
   } catch (error) {
 
     /**
       * Show the error, when run the server
       * @param error - the name of a error
     */
-
+   
     server.log.error(error)
     process.exit(1)
   }
 }
 
 start();
-

@@ -19,8 +19,6 @@ export const server: FastifyInstance<
 > = fastify({logger: log
 });
 
-// eslint-disable-next-line no-unused-vars
-
 createConnection(connectionOptions);
 
 const handleUncaughtException = () => {
@@ -42,17 +40,10 @@ handleUnhandledRejection();
  * activate plugins - a set of routes: user, boards, task
  */
 
-// eslint-disable-next-line func-names
-// eslint-disable-next-line no-unused-vars
 server.setNotFoundHandler((request, reply) => {
   reply.status(404).send(`Route ${request.url} not found.`);
   log.error(`Route ${request.url} not found`);
 })
-
-// eslint-disable-next-line no-unused-vars
-
-  // eslint-disable-next-line no-unused-vars
-  // const userRepository = connection.getRepository(UserDB);
 
 server.register(userRoutes);
 server.register(boardRoutes);

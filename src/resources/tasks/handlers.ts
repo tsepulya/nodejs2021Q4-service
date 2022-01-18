@@ -28,15 +28,6 @@ export const getTasks = async (req: FastifyRequest, reply: FastifyReply) => {
 
 export const getTask = async (req: CustomRequest, reply: FastifyReply) => {
   const { taskId } = req.params
-  // const tasks = getAllTasks();
-  // const task = tasks.find((elem) => elem.id === taskId);
-  // if (task) {
-  //   reply.send(task)
-  // } else {
-  //   reply.code(404);
-  //   log.error(`Task with such ID ${taskId} doesn't exist`);
-  //   throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
-  // }
   const taskRepository = getRepository(TaskDB);
   const task = await taskRepository.findOne(taskId);
   if (task) {
@@ -60,16 +51,6 @@ export const addTask = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
   const { title, order, description } = req.body;
   const { userId, columnId } = req.body;
-  // const users = getAllUsers();
-  // const boards = getAllBoards();
-  // if (!users.filter(elem => elem.id === userId).length) {
-  //   userId = null;
-  // }
-  // boards.forEach(board => {
-  //   if (!board.columns.filter(elem => elem.id === columnId).length) {
-  //     columnId = null;
-  //   };
-  // })
   const task = {
     id: uuidv4(),
     title,
@@ -79,12 +60,7 @@ export const addTask = async (req: CustomRequest, reply: FastifyReply) => {
     boardId: id,
     columnId
   }
-
-  // addInTasks(task);
-
-  // reply.code(201).send(task);
   const taskRepository = getRepository(TaskDB);
-
   const taskNew = await taskRepository.create(task);
   await taskRepository.save(taskNew);
   reply.code(201).send(taskNew)
@@ -100,17 +76,6 @@ export const addTask = async (req: CustomRequest, reply: FastifyReply) => {
 
 export const deleteTask = async (req: CustomRequest, reply: FastifyReply) => {
   const { taskId } = req.params
-
-  // const tasks = getAllTasks();
-  // const task = tasks.find((elem) => elem.id === taskId);
-  // if (!task) {
-  //   reply.code(404);
-  //   log.error(`Task with such ID ${taskId} doesn't exist`);
-  //   throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
-  // }
-
-  // deleteInTasks(taskId);
-
   const taskRepository = getRepository(TaskDB);
   await taskRepository.delete(taskId);
 
@@ -126,19 +91,6 @@ export const deleteTask = async (req: CustomRequest, reply: FastifyReply) => {
 
 export const updateTask = async (req: CustomRequest, reply: FastifyReply) => {
   const { taskId } = req.params
-  // const { title, order, description, userId, boardId, columnId } = req.body;
-
-  // const tasks = getAllTasks();
-  // const task = tasks.find((elem) => elem.id === taskId);
-  // if (!task) {
-  //   reply.code(404);
-  //   log.error(`Task with such ID ${taskId} doesn't exist`);
-  //   throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
-  // }
-
-  // changeInTasks(taskId, { title, order, description, userId, boardId, columnId } );
-
-  // reply.send({ taskId, title, order, description, userId, boardId, columnId })
 
   const taskRepository = getRepository(TaskDB);
   const task = await taskRepository.findOne(taskId);

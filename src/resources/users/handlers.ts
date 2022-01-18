@@ -15,14 +15,6 @@ import { TaskDB } from "../../entity/TaskDB";
  */
 
 export const getUsers = async (req: FastifyRequest, reply: FastifyReply) => {
-  // const users = getAllUsers();
-  // const usersShown = users.map(obj => ({...obj}));
-  // usersShown.forEach(elem => {
-  //   const elem1 = elem;
-  //   delete elem1.password;
-  // });
-  
-  // reply.send(usersShown);
   const users = await getRepository(UserDB).find();
   const usersShown = users.map(obj => ({...obj}));
   usersShown.forEach(elem => {
@@ -41,14 +33,6 @@ export const getUsers = async (req: FastifyRequest, reply: FastifyReply) => {
 
 export const getUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
-  // const users = getAllUsers();
-  // const user = users.find((elem) => elem.id === id)
-  // if (!user) {
-  //   reply.code(404);
-  //   log.error(`User with such ID ${id} doesn't exist`);
-  //   throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
-  // }
-  // reply.send(user);
   const userRepository = getRepository(UserDB);
   const user = await userRepository.findOne(id);
   if (!user) {
@@ -74,11 +58,6 @@ export const addUser = async (req: FastifyRequest, reply: FastifyReply) => {
     login,
     password
   }
-  // addInUsers(user);
-
-  // const userShown = {id: user.id, name: user.name, login: user.login};
-
-  // reply.code(201).send(userShown)
 
   const userRepository = getRepository(UserDB);
 
@@ -97,27 +76,6 @@ export const addUser = async (req: FastifyRequest, reply: FastifyReply) => {
 
 export const deleteUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
-
-  // const users = getAllUsers();
-  // const user = users.find((elem) => elem.id === id)
-  // if (!user) {
-  //   reply.code(404);
-  //   log.error(`User with such ID ${id} doesn't exist`);
-  //   throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
-  // }
-
-  // const tasks = getAllTasks();
-  // const tasksWithId = tasks.filter(elem => elem.userId === id);
-  // if (tasksWithId.length) {
-  //   tasksWithId.forEach(task => {
-  //     const taskNew = task;
-  //     taskNew.userId = null;
-  //     if (task.id) {
-  //       changeInTasks(task.id, taskNew);
-  //     }
-  //   })
-  // }
-  // deleteInUsers(id);
 
   const userRepository = getRepository(UserDB);
   await userRepository.delete(id);
@@ -138,16 +96,6 @@ export const deleteUser = async (req: CustomRequest, reply: FastifyReply) => {
 export const updateUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
   const { name, login } = req.body;
-
-  // const users = getAllUsers();
-  // const user = users.find((elem) => elem.id === id)
-  // if (!user) {
-  //   reply.code(404);
-  //   log.error(`User with such ID ${id} doesn't exist`);
-  //   throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
-  // }
-
-  // changeInUsers(id, { name, login, password })
 
   const userShown = { id, name, login };
 

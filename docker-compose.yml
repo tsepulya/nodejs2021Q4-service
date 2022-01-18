@@ -2,6 +2,7 @@ version: '3.0'
 
 services:
   postgres:
+    container_name: my_database
     image: postgres:14
     restart: always
     environment:
@@ -14,6 +15,7 @@ services:
     networks:
       - app-network
   app:
+    container_name: my_app
     image: docker-img
     build: .
     ports:

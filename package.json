@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-    "migration": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run",
+    "migration": "ts-node --transpile-only ./node_modules/typeorm/cli.js -f ./src/ormconfig.ts migration:run",
     "start": "npm run migration && nodemon -L --exitcrash src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",

@@ -6,6 +6,7 @@ import { boardRoutes } from './resources/boards/routes';
 import { taskRoutes } from "./resources/tasks/routes";
 import { PORT } from "./common/config";
 import { log } from "./logging";
+import connectionOptions from "./ormconfig";
 
 /**
  * create fastify instance with some config
@@ -20,7 +21,7 @@ export const server: FastifyInstance<
 
 // eslint-disable-next-line no-unused-vars
 
-createConnection();
+createConnection(connectionOptions);
 
 const handleUncaughtException = () => {
   process.on('uncaughtException', ()=> {

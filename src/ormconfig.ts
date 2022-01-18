@@ -1,8 +1,14 @@
 import { ConnectionOptions } from "typeorm";
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`)});
+
+const HOST = process.env.NODE_ENV === 'docker' ? 'my_database' : 'localhost';
 
 const connectionOptions = {
     type: 'postgres',
-    host: process.env.HOST,
+    host: HOST,
     port: process.env.POSTGRES_PORT,
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
@@ -17,3 +23,4 @@ const connectionOptions = {
   } as ConnectionOptions;
 
   export default connectionOptions;
+  

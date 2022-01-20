@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import { checkToken } from '../login/checkToken';
 import {
     getTasks,
     getTask,
@@ -29,6 +30,7 @@ import {
         },
       },
     },
+    preHandler: checkToken,
     handler: getTasks,
   }
   
@@ -38,6 +40,7 @@ import {
         200: Task,
       },
     },
+    preHandler: checkToken,
     handler: getTask,
   }
   
@@ -59,6 +62,7 @@ import {
         201: Task,
       },
     },
+    preHandler: checkToken,
     handler: addTask,
   }
   
@@ -73,6 +77,7 @@ import {
         },
       },
     },
+    preHandler: checkToken,
     handler: deleteTask,
   }
   
@@ -82,6 +87,7 @@ import {
         200: Task,
       },
     },
+    preHandler: checkToken,
     handler: updateTask,
   }
 

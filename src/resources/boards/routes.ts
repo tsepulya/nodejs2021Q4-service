@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import { checkToken } from '../login/checkToken';
 import {
     getBoards,
     getBoard,
@@ -34,6 +35,7 @@ import {
         },
       },
     },
+    preHandler: checkToken,
     handler: getBoards,
   }
   
@@ -43,6 +45,7 @@ import {
         200: Board,
       },
     },
+    preHandler: checkToken,
     handler: getBoard,
   }
   
@@ -60,6 +63,7 @@ import {
         201: Board,
       },
     },
+    preHandler: checkToken,
     handler: addBoard,
   }
   
@@ -74,6 +78,7 @@ import {
         },
       },
     },
+    preHandler: checkToken,
     handler: deleteBoard,
   }
   
@@ -83,6 +88,7 @@ import {
         200: Board,
       },
     },
+    preHandler: checkToken,
     handler: updateBoard,
   }
 

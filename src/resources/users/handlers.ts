@@ -6,6 +6,7 @@ import CustomError from "../../errors";
 import { log } from "../../logging";
 import { UserDB } from "../../entity/UserDB";
 import { TaskDB } from "../../entity/TaskDB";
+import { hashPassword } from "../login/hashHelper";
 
 /**
  * handler for get method for user router
@@ -62,19 +63,23 @@ export const getUserByProps = async (login: string) => {
 
 export const addUser = async (req: FastifyRequest, reply: FastifyReply) => {
   const { name, login, password} = <User> req.body;
-  const user = {
-    id: uuidv4(),
-    name,
-    login,
-    password
+  if (password) {
+    const hashedPassword = await hashPassword(password);
+    const user = {
+      id: uuidv4(),
+      name,
+      login,
+      password: hashedPassword
+    }
+  
+    const userRepository = getRepository(UserDB);
+  
+    const userNew = await userRepository.create(user);
+    await userRepository.save(userNew);
+    const userShown = {id: user.id, name: user.name, login: user.login};
+    reply.code(201).send(userShown)
   }
 
-  const userRepository = getRepository(UserDB);
-
-  const userNew = await userRepository.create(user);
-  await userRepository.save(userNew);
-  const userShown = {id: user.id, name: user.name, login: user.login};
-  reply.code(201).send(userShown)
 }
 
 /**
@@ -106,6 +111,12 @@ export const deleteUser = async (req: CustomRequest, reply: FastifyReply) => {
 export const updateUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
   const { name, login } = req.body;
+  const newPassword = <string>req.body.password;
+  const hashedPassword = await hashPassword(newPassword);
+  const newUser = {
+    ...req.body,
+    password: hashedPassword
+  }
 
   const userShown = { id, name, login };
 
@@ -116,7 +127,7 @@ export const updateUser = async (req: CustomRequest, reply: FastifyReply) => {
     log.error(`User with such ID ${id} doesn't exist`);
     throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
   }
-  userRepository.merge(user, req.body);
-  await userRepository.save(user);
+  userRepository.merge(user, newUser);
+  await userRepository.save(newUser);
   return reply.send(userShown);
 }

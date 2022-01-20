@@ -14,7 +14,7 @@ export function loginRoutes(fastify: FastifyInstance, options: FastifyServerOpti
         if (!token) {
             res.status(403).send('Wrong login/password combination');
         } else {
-            res.status(200).send(token);
+            res.send({token});
         }
     })
  

@@ -1,0 +1,22 @@
+import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import { signToken } from './service';
+import { Login } from './types';
+
+export function loginRoutes(fastify: FastifyInstance, options: FastifyServerOptions, done: CallableFunction) {
+  
+    fastify.post('/login', async (req, res) => {
+        const user = <Login>req.body;
+
+        const { login, password } = user;
+
+        const token = await signToken(login, password);
+
+        if (!token) {
+            res.status(403).send('Wrong login/password combination');
+        } else {
+            res.status(200).send(token);
+        }
+    })
+ 
+    done()
+}

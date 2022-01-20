@@ -6,7 +6,6 @@ import CustomError from "../../errors";
 import { log } from "../../logging";
 import { UserDB } from "../../entity/UserDB";
 import { TaskDB } from "../../entity/TaskDB";
-import { Login } from "../login/types";
 
 /**
  * handler for get method for user router
@@ -44,22 +43,14 @@ export const getUser = async (req: CustomRequest, reply: FastifyReply) => {
   reply.send(user);
 }
 
-export const getUserByProps = async (props: Login) => {
-  const { login, password } = props;
+export const getUserByProps = async (login: string) => {
+
   const userRepository = getRepository(UserDB);
-  const user = await userRepository.findOne({ where: { login, password } });
+  const user = await userRepository.findOne({ where: { login } });
   if (!user) {
     return null;
   }
   return user;
-  // const users = await getRepository(UserDB).find();
-  // users.find(user => {
-  //   const matches = Object.entries(props).map(item => {
-  //     const [prop, value] = item;
-  //     return user[prop] === value;
-  //   });
-  //   return matches.every(item => item === true);
-  // })
 }
 
 /**

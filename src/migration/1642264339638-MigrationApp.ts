@@ -120,7 +120,7 @@ export class MigrationApp1642264339638 implements MigrationInterface {
         .values({id: "56629930-ba59-436e-94a7-ca29b294f3e9",
             name: "Somebody",
             login: "admin",
-            password: "admin"})
+            password: "$2a$10$o2.UawkUECYY0OlJADjqS.Jv/OWChxHwXyx51wWQvo0x3RvgrWPZO"})
         .execute()
 
     }

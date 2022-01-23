@@ -9,12 +9,16 @@ export function loginRoutes(fastify: FastifyInstance, options: FastifyServerOpti
 
         const { login, password } = user;
 
-        const token = await signToken(login, password);
-
-        if (!token) {
+        if (!login || !password || Object.keys(user).length !== 2) {
             res.status(403).send('Wrong login/password combination');
         } else {
-            res.send({token});
+            const token = await signToken(login, password);
+
+            if (!token) {
+                res.status(403).send('Wrong login/password combination');
+            } else {
+                res.send({token});
+            }
         }
     })
  

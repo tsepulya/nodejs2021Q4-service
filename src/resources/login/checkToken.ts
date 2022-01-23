@@ -1,6 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 import * as dotenv from "dotenv";
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { log } from '../../logging';
+import CustomError from '../../errors';
 
 dotenv.config();
 
@@ -17,17 +19,25 @@ export const checkToken = async (req: FastifyRequest, res: FastifyReply) => {
 
             if (type !== 'Bearer') {
                 res.status(401).send('Unauthorized user');
+                log.error('Unauthorized user');
+                throw new CustomError('Unauthorized user', 401);
             } else {
                 try {
                     jwt.verify(token, SECRET);
                 } catch(e) {
                     res.status(401).send('Unauthorized user');
+                    log.error('Unauthorized user');
+                    throw new CustomError('Unauthorized user', 401);
                 }
             }
         } else {
             res.status(401).send('Unauthorized user');
+            log.error('Unauthorized user');
+            throw new CustomError('Unauthorized user', 401);
         }
     } else {
         res.status(401).send('Unauthorized user');
+        log.error('Unauthorized user');
+        throw new CustomError('Unauthorized user', 401);
     }
 }

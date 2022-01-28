@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from "uuid";
 import { UserDB } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersHashHelper } from './users.hashHelper';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +11,7 @@ export class UsersService {
   constructor(
     @Inject('USER_REPOSITORY')
     private usersRepository: Repository<UserDB>,
+    private usersHashHelper: UsersHashHelper
   ) {}
 
   async findAll() {
@@ -36,13 +37,14 @@ export class UsersService {
 
   
   async create(createUserDto: CreateUserDto) {
-    const { name, login, password} = createUserDto;
+    const { name, login, password } = createUserDto;
+    const hashedPassword = await this.usersHashHelper.hashPassword(password);
 
     const user = {
       id: uuidv4(),
       name,
       login,
-      password
+      password: hashedPassword
     }
 
     const userNew = await this.usersRepository.create(user);
@@ -53,9 +55,8 @@ export class UsersService {
   }
 
   async update(id: string, createUserDto: CreateUserDto) {
-    const { name, login } = createUserDto;
-    // const newPassword = <string>req.body.password;
-    // const hashedPassword = await hashPassword(newPassword);
+    const { name, login, password } = createUserDto;
+    const hashedPassword = await this.usersHashHelper.hashPassword(password);
     // const newUser = {
     //   ...req.body,
     //   password: hashedPassword
@@ -71,7 +72,8 @@ export class UsersService {
     // }
       const newUser = {
       ...createUserDto,
-      id
+      id,
+      password: hashedPassword
     }
     this.usersRepository.merge(user, newUser);
     await this.usersRepository.save(newUser);

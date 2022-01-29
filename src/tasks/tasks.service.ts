@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from "uuid";
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -14,7 +14,7 @@ export class TasksService {
 
   async create(createTaskDto: CreateTaskDto, idBoard: string) {
     // return 'This action adds a new task';
-    const { title, order, description, userId, columnId, boardId } = createTaskDto;
+    const { title, order, description, userId, columnId } = createTaskDto;
     const task = {
       id: uuidv4(),
       title,
@@ -37,17 +37,18 @@ export class TasksService {
     // return `This action returns a #${id} task`;
     
     const task = await this.tasksRepository.findOne(id);
+    if (!task) {
+      throw new NotFoundException(`Task with such ID ${id} doesn't exist`);
+    }
     return task;
   }
 
   async update(id: string, createTaskDto: CreateTaskDto) {
     // return `This action updates a #${id} task`;
     const task = await this.tasksRepository.findOne(id);
-    // if (!task) {
-    // reply.code(404);
-    // log.error(`Task with such ID ${taskId} doesn't exist`);
-    // throw new CustomError(`Task with such ID ${taskId} doesn't exist`, 404);
-    // }
+    if (!task) {
+      throw new NotFoundException(`Task with such ID ${id} doesn't exist`);
+    }
     this.tasksRepository.merge(task, createTaskDto);
     await this.tasksRepository.save(task);
     return task;
@@ -56,6 +57,10 @@ export class TasksService {
   async remove(id: string) {
     // return `This action removes a #${id} task`;
 
+    const task = await this.tasksRepository.findOne(id);
+    if (!task) {
+      throw new NotFoundException(`Task with such ID ${id} doesn't exist`);
+    }
     await this.tasksRepository.delete(id);
   
     return `Task ${id} has been removed`;

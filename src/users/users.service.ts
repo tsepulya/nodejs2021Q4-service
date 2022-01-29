@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from "uuid";
 import { UserDB } from './entities/user.entity';
@@ -27,11 +27,10 @@ export class UsersService {
   async findOne(id: string) {
 
     const user = await this.usersRepository.findOne(id);
-    // if (!user) {
-    //   reply.code(404);
-    //   log.error(`User with such ID ${id} doesn't exist`);
-    //   throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
-    // }
+    if (!user) {
+      throw new NotFoundException(`User with such ID ${id} doesn't exist`);
+    }
+
     return user;
   }
 
@@ -65,11 +64,9 @@ export class UsersService {
     const userShown = { id, name, login };
   
     const user = await this.usersRepository.findOne(id);
-    // if (!user) {
-    //   reply.code(404);
-    //   log.error(`User with such ID ${id} doesn't exist`);
-    //   throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
-    // }
+    if (!user) {
+      throw new NotFoundException(`User with such ID ${id} doesn't exist`);
+    }
       const newUser = {
       ...createUserDto,
       id,
@@ -83,12 +80,16 @@ export class UsersService {
   }
 
   async remove(id: string) {
-
+    
+    const user = await this.usersRepository.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with such ID ${id} doesn't exist`);
+    }
     await this.usersRepository.delete(id);
 
     // const taskRepository = getRepository(TaskDB);
     // await taskRepository.update({ userId: id }, { userId: null });
 
-  return `User ${id} has been removed`;
+    return `User ${id} has been removed`;
   }
 }

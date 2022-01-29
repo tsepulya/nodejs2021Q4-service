@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from "uuid";
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -37,11 +37,10 @@ export class BoardsService {
     // return `This action returns a #${id} board`;
 
     const board = await this.boardsRepository.findOne(id, RELATIONS);
-  //   if (!board) {
-  //   reply.code(404);
-  //   log.error(`Board with such ID ${id} doesn't exist`);
-  //   throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
-  // }
+    if (!board) {
+      throw new NotFoundException(`Board with such ID ${id} doesn't exist`);
+    }
+
     return board;
   }
 
@@ -49,11 +48,9 @@ export class BoardsService {
     // return `This action updates a #${id} board`;
 
     const board = await this.boardsRepository.findOne(id);
-  // if (!board) {
-  //   reply.code(404);
-  //   log.error(`Board with such ID ${id} doesn't exist`);
-  //   throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
-  // }
+    if (!board) {
+      throw new NotFoundException(`Board with such ID ${id} doesn't exist`);
+    }
     const updatedBoard = { ...board, ...createBoardDto };
     await this.boardsRepository.save(updatedBoard);
     const newBoard = await this.boardsRepository.findOne(id, RELATIONS);
@@ -64,11 +61,10 @@ export class BoardsService {
     // return `This action removes a #${id} board`;
 
     const board = await this.boardsRepository.findOne(id);
-  // if (!board) {
-  //   reply.code(404);
-  //   log.error(`Board with such ID ${id} doesn't exist`);
-  //   throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
-  // }
+    if (!board) {
+      throw new NotFoundException(`Board with such ID ${id} doesn't exist`);
+    }
+    
     await this.boardsRepository.delete(id);
 
   // const taskRepository = getRepository(TaskDB);

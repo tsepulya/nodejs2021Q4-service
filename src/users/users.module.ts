@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { DatabaseModule } from 'src/database/database.module';
+import { tasksProviders } from 'src/tasks/tasks.providers';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { DatabaseModule } from 'src/database/database.module';
 import { usersProviders } from './users.providers';
 import { UsersHashHelper } from './users.hashHelper';
 
@@ -10,6 +11,7 @@ import { UsersHashHelper } from './users.hashHelper';
   controllers: [UsersController],
   providers: [
     ...usersProviders,
+    ...tasksProviders,
     UsersService,
     UsersHashHelper
   ],

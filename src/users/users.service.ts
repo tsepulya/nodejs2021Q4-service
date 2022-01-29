@@ -1,6 +1,7 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from "uuid";
+import { TaskDB } from 'src/tasks/entities/task.entity';
 import { UserDB } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersHashHelper } from './users.hashHelper';
@@ -11,7 +12,9 @@ export class UsersService {
   constructor(
     @Inject('USER_REPOSITORY')
     private usersRepository: Repository<UserDB>,
-    private usersHashHelper: UsersHashHelper
+    private usersHashHelper: UsersHashHelper,
+    @Inject('TASK_REPOSITORY')
+    private tasksRepository: Repository<TaskDB>,
   ) {}
 
   async findAll() {
@@ -87,8 +90,7 @@ export class UsersService {
     }
     await this.usersRepository.delete(id);
 
-    // const taskRepository = getRepository(TaskDB);
-    // await taskRepository.update({ userId: id }, { userId: null });
+    await this.tasksRepository.update({ userId: id }, { userId: null });
 
     return `User ${id} has been removed`;
   }

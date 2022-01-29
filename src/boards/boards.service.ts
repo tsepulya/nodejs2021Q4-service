@@ -1,6 +1,7 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from "uuid";
+import { TaskDB } from 'src/tasks/entities/task.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardDB } from './entities/board.entity';
 
@@ -8,10 +9,12 @@ const RELATIONS = { relations: ['columns'] };
 
 @Injectable()
 export class BoardsService {
-
+  
   constructor(
     @Inject('BOARD_REPOSITORY')
     private boardsRepository: Repository<BoardDB>,
+    @Inject('TASK_REPOSITORY')
+    private tasksRepository: Repository<TaskDB>,
   ) {}
 
   async create(createBoardDto: CreateBoardDto) {
@@ -67,8 +70,7 @@ export class BoardsService {
     
     await this.boardsRepository.delete(id);
 
-  // const taskRepository = getRepository(TaskDB);
-  // await taskRepository.delete({ boardId: id });
+    await this.tasksRepository.delete({ boardId: id });
 
     return `Board ${id} has been removed`;
   }

@@ -37,6 +37,13 @@ export class UsersService {
     return user;
   }
 
+  async findByProps(login: string) {
+    const user = await this.usersRepository.findOne({ where: { login } });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
   
   async create(createUserDto: CreateUserDto) {
     const { name, login, password } = createUserDto;

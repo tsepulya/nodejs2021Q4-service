@@ -2,8 +2,7 @@
   "name": "nest-app",
   "version": "0.0.1",
   "description": "",
-  "author": "",
-  "private": true,
+  "author": "tsepulya",
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -37,7 +36,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "typeorm": "^0.2.41",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yamljs": "0.3.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -67,7 +67,10 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "husky": "^4.3.8",
+    "lint-staged": "12.0.3",
+    "nodemon": "2.0.15"
   },
   "engines": {
     "node": ">=16.0.0 <17"

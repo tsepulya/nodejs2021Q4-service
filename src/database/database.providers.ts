@@ -12,7 +12,12 @@ export const databaseProviders = [
         password: 'postgres',
         database: 'postgres',
         entities: ["dist/**/*.entity.js"],
-        synchronize: true,
+        synchronize: false,
+        migrationsRun: true,
+        migrations: ["dist/migrations/*{.ts,.js}"],
+        cli: {
+          migrationsDir: "dist/migration" || "./dist/migration"
+      }
       }),
   },
 ];

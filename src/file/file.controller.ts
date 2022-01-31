@@ -32,7 +32,7 @@ export class FileController {
   }
 
   @Get(':filename')
-  findOne(@Param('filename') filename: string) {
-    return this.fileService.findOne(filename);
+  getFile(@Param('filename') filename: string) {
+    return this.fileService.getFile(filename);
   }
 }

@@ -1,12 +1,11 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskDB } from './entities/task.entity';
 
 @Injectable()
 export class TasksService {
-
   constructor(
     @Inject('TASK_REPOSITORY')
     private tasksRepository: Repository<TaskDB>,
@@ -22,8 +21,8 @@ export class TasksService {
       description,
       userId,
       boardId: idBoard,
-      columnId
-    }
+      columnId,
+    };
     const taskNew = await this.tasksRepository.create(task);
     await this.tasksRepository.save(taskNew);
     return taskNew;
@@ -35,7 +34,7 @@ export class TasksService {
 
   async findOne(id: string) {
     // return `This action returns a #${id} task`;
-    
+
     const task = await this.tasksRepository.findOne(id);
     if (!task) {
       throw new NotFoundException(`Task with such ID ${id} doesn't exist`);
@@ -62,8 +61,7 @@ export class TasksService {
       throw new NotFoundException(`Task with such ID ${id} doesn't exist`);
     }
     await this.tasksRepository.delete(id);
-  
-    return `Task ${id} has been removed`;
 
+    return `Task ${id} has been removed`;
   }
 }

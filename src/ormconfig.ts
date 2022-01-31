@@ -1,4 +1,4 @@
-import { ConnectionOptions } from "typeorm";
+import { ConnectionOptions } from 'typeorm';
 // import dotenv from 'dotenv';
 // import path from 'path';
 
@@ -13,14 +13,13 @@ const connectionOptions = {
   username: 'postgres',
   password: 'postgres',
   database: 'postgres',
-  entities: ["./src/**.entity/*.ts"],
+  entities: ['./src/**.entity/*.ts'],
   synchronize: false,
   migrationsRun: true,
-  migrations: ["./src/migration/*.ts"],
+  migrations: ['./src/migration/*.ts'],
   cli: {
-    migrationsDir: "./src/migration"
-}
-  } as ConnectionOptions;
+    migrationsDir: './src/migration',
+  },
+} as ConnectionOptions;
 
-  export default connectionOptions;
-  
+export default connectionOptions;

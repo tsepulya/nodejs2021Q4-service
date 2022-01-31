@@ -8,9 +8,6 @@ import { tasksProviders } from './tasks.providers';
 @Module({
   imports: [DatabaseModule, JwtAuthGuard],
   controllers: [TasksController],
-  providers: [
-    ...tasksProviders,
-    TasksService
-  ],
+  providers: [...tasksProviders, TasksService],
 })
 export class TasksModule {}

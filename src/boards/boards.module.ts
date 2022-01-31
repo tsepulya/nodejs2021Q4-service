@@ -9,10 +9,6 @@ import { boardsProviders } from './boards.providers';
 @Module({
   imports: [DatabaseModule, JwtAuthGuard],
   controllers: [BoardsController],
-  providers: [
-    ...boardsProviders,
-    ...tasksProviders,
-    BoardsService,
-  ],
+  providers: [...boardsProviders, ...tasksProviders, BoardsService],
 })
 export class BoardsModule {}

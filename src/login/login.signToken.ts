@@ -7,27 +7,29 @@ const SECRET = 'SOME_SECRET';
 
 @Injectable()
 export class LoginSignToken {
+  constructor(
+    private usersHashHelper: UsersHashHelper,
+    private usersService: UsersService,
+  ) {}
 
-    constructor(
-        private usersHashHelper: UsersHashHelper,
-        private usersService: UsersService
-      ) {}
-
-    async signToken(somelogin:string, password: string) {
-        const user = await this.usersService.findByProps(somelogin);
+  async signToken(somelogin: string, password: string) {
+    const user = await this.usersService.findByProps(somelogin);
 
     if (!user) {
-        return null;
-    } 
-    const { password: hashedPassword} = user;
+      return null;
+    }
+    const { password: hashedPassword } = user;
     if (hashedPassword) {
-        const isSimilar = await this.usersHashHelper.checkPassword(password, hashedPassword);
-        if (isSimilar) {
-            const { id, login } = user;
-            const token = jwt.sign({id, login}, SECRET); 
-            return token;
-        }
+      const isSimilar = await this.usersHashHelper.checkPassword(
+        password,
+        hashedPassword,
+      );
+      if (isSimilar) {
+        const { id, login } = user;
+        const token = jwt.sign({ id, login }, SECRET);
+        return token;
+      }
     }
     return null;
-    }
+  }
 }

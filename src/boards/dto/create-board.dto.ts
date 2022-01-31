@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsString, IsArray } from 'class-validator';
 
 export type Column = {
-    title: string;
-    order: number;
-    id?: string;
+  title: string;
+  order: number;
+  id?: string;
 };
 
 export class CreateBoardDto {
@@ -14,5 +14,4 @@ export class CreateBoardDto {
   @IsNotEmpty()
   @IsArray()
   columns: Array<Column>;
-
 }

@@ -11,6 +11,13 @@ import { LoginSignToken } from './login.signToken';
 @Module({
   imports: [DatabaseModule],
   controllers: [LoginController],
-  providers: [LoginService, LoginSignToken, UsersHashHelper, UsersService, ...usersProviders, ...tasksProviders]
+  providers: [
+    LoginService,
+    LoginSignToken,
+    UsersHashHelper,
+    UsersService,
+    ...usersProviders,
+    ...tasksProviders,
+  ],
 })
 export class LoginModule {}

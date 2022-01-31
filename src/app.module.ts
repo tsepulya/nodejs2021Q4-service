@@ -8,9 +8,10 @@ import { TasksModule } from './tasks/tasks.module';
 import { LoginModule } from './login/login.module';
 // import { DatabaseModule } from './database/database.module';
 // import { databaseProviders } from './database/database.providers';
+import { FileModule } from './file/file.module';
 
 @Module({
-  imports: [UsersModule, BoardsModule, TasksModule, LoginModule],
+  imports: [UsersModule, BoardsModule, TasksModule, LoginModule, FileModule],
   controllers: [AppController],
   providers: [AppService],
 })

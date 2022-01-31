@@ -14,8 +14,7 @@ import { UsersHashHelper } from './users.hashHelper';
     ...usersProviders,
     ...tasksProviders,
     UsersService,
-    UsersHashHelper
+    UsersHashHelper,
   ],
 })
-
 export class UsersModule {}

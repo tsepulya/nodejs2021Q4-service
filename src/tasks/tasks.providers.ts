@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm';
-import { TaskDB } from './entities/task.entity'; 
+import { TaskDB } from './entities/task.entity';
 
 export const tasksProviders = [
   {

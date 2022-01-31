@@ -1,6 +1,6 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import { TaskDB } from 'src/tasks/entities/task.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardDB } from './entities/board.entity';
@@ -9,7 +9,6 @@ const RELATIONS = { relations: ['columns'] };
 
 @Injectable()
 export class BoardsService {
-  
   constructor(
     @Inject('BOARD_REPOSITORY')
     private boardsRepository: Repository<BoardDB>,
@@ -23,13 +22,13 @@ export class BoardsService {
     const board = {
       id: uuidv4(),
       title,
-      columns
-    }
+      columns,
+    };
 
-  await this.boardsRepository.create(board);
-  await this.boardsRepository.save(board);
+    await this.boardsRepository.create(board);
+    await this.boardsRepository.save(board);
 
-  return board;
+    return board;
   }
 
   async findAll() {
@@ -67,7 +66,7 @@ export class BoardsService {
     if (!board) {
       throw new NotFoundException(`Board with such ID ${id} doesn't exist`);
     }
-    
+
     await this.boardsRepository.delete(id);
 
     await this.tasksRepository.delete({ boardId: id });

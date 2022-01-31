@@ -3,13 +3,13 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name!: string;
 
   @IsNotEmpty()
   @IsString()
-  login: string;
+  login!: string;
 
   @IsNotEmpty()
   @IsString()
-  password: string;
+  password!: string;
 }

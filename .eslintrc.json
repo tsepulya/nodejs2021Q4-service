@@ -41,8 +41,6 @@
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "node/no-missing-import": "off",
-    "tsdoc/syntax": "warn",
-    "no-useless-constructor": "off",
-    "no-unused-vars": "off"
+    "tsdoc/syntax": "warn"
   }
 }

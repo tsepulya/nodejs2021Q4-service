@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFileDto } from './dto/create-file.dto';
 
 @Injectable()
 export class FileService {
-  create(createFileDto: CreateFileDto) {
-    return 'This action adds a new file';
+  upload(file: Express.Multer.File) {
+    return `File ${file.filename} is successfully saved`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} file`;
+  findOne(filename: string) {
+    return `This action returns a #${filename} file`;
   }
 }

@@ -9,9 +9,9 @@ export type Column = {
 export class CreateBoardDto {
   @IsNotEmpty()
   @IsString()
-  title: string;
+  title!: string;
 
   @IsNotEmpty()
   @IsArray()
-  columns: Array<Column>;
+  columns!: Array<Column>;
 }

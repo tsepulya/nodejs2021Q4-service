@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/database/database.module';
 import { tasksProviders } from 'src/tasks/tasks.providers';
-import { JwtAuthGuard } from 'src/authentication/auth.guard';
+// import { JwtAuthGuard } from 'src/authentication/auth.guard';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { usersProviders } from './users.providers';
 import { UsersHashHelper } from './users.hashHelper';
 
 @Module({
-  imports: [DatabaseModule, JwtAuthGuard],
+  imports: [DatabaseModule, Logger],
   controllers: [UsersController],
   providers: [
     ...usersProviders,

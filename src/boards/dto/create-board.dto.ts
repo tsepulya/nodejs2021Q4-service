@@ -1,10 +1,17 @@
-import { IsNotEmpty, IsString, IsArray } from 'class-validator';
+import { IsNotEmpty, IsString, IsArray, IsInt } from 'class-validator';
 
-export type Column = {
-  title: string;
-  order: number;
+export class Column {
+  @IsNotEmpty()
+  @IsString()
+  title!: string;
+
+  @IsNotEmpty()
+  @IsInt()
+  order!: number;
+
+  @IsString()
   id?: string;
-};
+}
 
 export class CreateBoardDto {
   @IsNotEmpty()
@@ -13,5 +20,5 @@ export class CreateBoardDto {
 
   @IsNotEmpty()
   @IsArray()
-  columns!: Array<Column>;
+  columns!: Column[];
 }

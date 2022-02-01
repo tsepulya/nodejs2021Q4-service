@@ -5,6 +5,7 @@ import { TaskDB } from 'src/tasks/entities/task.entity';
 import { UserDB } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersHashHelper } from './users.hashHelper';
+import { Logger } from 'winston';
 
 @Injectable()
 export class UsersService {
@@ -14,6 +15,9 @@ export class UsersService {
     private usersHashHelper: UsersHashHelper,
     @Inject('TASK_REPOSITORY')
     private tasksRepository: Repository<TaskDB>,
+    @Inject('winston')
+    private readonly logger: Logger
+    
   ) {}
 
   async findAll() {
@@ -29,9 +33,9 @@ export class UsersService {
   async findOne(id: string) {
     const user = await this.usersRepository.findOne(id);
     if (!user) {
+      this.logger.error(`User with such ID ${id} doesn't exist`);
       throw new NotFoundException(`User with such ID ${id} doesn't exist`);
     }
-
     return user;
   }
 
@@ -64,10 +68,6 @@ export class UsersService {
   async update(id: string, createUserDto: CreateUserDto) {
     const { name, login, password } = createUserDto;
     const hashedPassword = await this.usersHashHelper.hashPassword(password);
-    // const newUser = {
-    //   ...req.body,
-    //   password: hashedPassword
-    // }
 
     const userShown = { id, name, login };
 

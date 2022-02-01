@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { AppController } from './app.controller';
@@ -9,6 +9,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { LoginModule } from './login/login.module';
 import { FileModule } from './file/file.module';
 import { ExceptionModule } from './exceptionFilters/exception.module';
+import { LoggerMiddleware } from './logger.middleware';
 
 @Module({
   imports: [UsersModule, BoardsModule, TasksModule, LoginModule, FileModule, ExceptionModule,
@@ -20,15 +21,16 @@ import { ExceptionModule } from './exceptionFilters/exception.module';
         transports: [
           new winston.transports.Console({
             format: winston.format.combine(
+              // winston.format.prettyPrint(),
               winston.format.colorize(),
-              winston.format.simple()
+              winston.format.simple(),
+              // winston.format.splat()
             )
           }),
           new winston.transports.File({
-            dirname: ('./src/logs'), //path to where save loggin result 
-            filename: 'error.log', //name of file where will be saved logging result
+            dirname: ('./src/logs'), 
+            filename: 'error.log',
             level: 'error',
-            // format: winston.format.errors()
           }),
           new winston.transports.File({
             dirname: ('./src/logs'),
@@ -41,4 +43,12 @@ import { ExceptionModule } from './exceptionFilters/exception.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+// export class AppModule {}
+
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(LoggerMiddleware)
+    .forRoutes('*');
+  }
+}

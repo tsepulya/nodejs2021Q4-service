@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE ${PORT}
 
+COPY ./dist ./dist
+
 CMD ["npm", "run", "start:docker"]

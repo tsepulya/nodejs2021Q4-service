@@ -24,7 +24,7 @@ services:
     working_dir: /app
     volumes:
       - ./:/app
-      - vol-logs:/logs
+      - vol-logs:/src/logs
     networks:
       - app-network
     command: npm run start:docker

@@ -4,21 +4,21 @@ import { ConnectionOptions } from 'typeorm';
 
 // dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`)});
 
-// const HOST = process.env.NODE_ENV === 'docker' ? 'my_database' : 'localhost';
+const HOST = process.env.NODE_ENV === 'docker' ? 'my_database' : 'localhost';
 
 const connectionOptions = {
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'postgres',
-  database: 'postgres',
-  entities: ['./src/**.entity/*.ts'],
+  host: HOST,
+  port: process.env.POSTGRES_PORT,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  entities: [process.env.POSTGRES_ENTITIES] || ['./src/**.entity/*.ts'],
   synchronize: false,
   migrationsRun: true,
-  migrations: ['./src/migration/*.ts'],
+  migrations: [process.env.POSTGRES_MIGRATIONS] || ['./src/migration/*.ts'],
   cli: {
-    migrationsDir: './src/migration',
+    migrationsDir: process.env.POSTGRES_MIGRATIONS_DIR || './src/migration',
   },
 } as ConnectionOptions;
 

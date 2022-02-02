@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import * as jwt from 'jsonwebtoken';
 
-const SECRET = 'SOME_SECRET';
+const SECRET = <string>process.env.SECRET_KEY || 'SOME_SECRET';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {

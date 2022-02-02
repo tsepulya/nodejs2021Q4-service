@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { UsersHashHelper } from 'src/users/users.hashHelper';
 import { UsersService } from 'src/users/users.service';
 
-const SECRET = 'SOME_SECRET';
+const SECRET = <string>process.env.SECRET_KEY || 'SOME_SECRET';
 
 @Injectable()
 export class LoginSignToken {

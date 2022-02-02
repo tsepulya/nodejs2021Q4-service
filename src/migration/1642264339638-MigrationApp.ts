@@ -9,6 +9,11 @@ import {
 
 export class MigrationApp1642264339638 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+
+    await queryRunner.query(
+      `CREATE extension IF NOT EXISTS "uuid-ossp";`,
+    );
+
     await queryRunner.createTable(
       new Table({
         name: 'user_db',

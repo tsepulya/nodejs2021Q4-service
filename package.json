@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "migration": "ts-node --transpile-only ./node_modules/typeorm/cli.js -f ./src/ormconfig.ts migration:run",
     "start": "npm run migration && nest start",
-    "start:docker": "cross-env NODE_ENV=docker npm run migration && cross-env NODE_ENV=docker npm run start:dev",
+    "start:docker": "npm run migration && nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

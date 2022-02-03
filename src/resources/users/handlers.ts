@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { getAllUsers, addInUsers, deleteInUsers, changeInUsers } from './service';
+import {getRepository} from "typeorm";
 import { CustomRequest, User } from "./types";
-import { changeInTasks, getAllTasks } from "../tasks/service";
 import CustomError from "../../errors";
 import { log } from "../../logging";
+import { UserDB } from "../../entity/UserDB";
+import { TaskDB } from "../../entity/TaskDB";
 
 /**
  * handler for get method for user router
@@ -13,14 +14,13 @@ import { log } from "../../logging";
  * @returns - array of users
  */
 
-export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
-  const users = getAllUsers();
+export const getUsers = async (req: FastifyRequest, reply: FastifyReply) => {
+  const users = await getRepository(UserDB).find();
   const usersShown = users.map(obj => ({...obj}));
   usersShown.forEach(elem => {
     const elem1 = elem;
     delete elem1.password;
   });
-  
   reply.send(usersShown);
 }
 
@@ -31,10 +31,10 @@ export const getUsers = (req: FastifyRequest, reply: FastifyReply) => {
  * @returns - user
  */
 
-export const getUser = (req: CustomRequest, reply: FastifyReply) => {
+export const getUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
-  const users = getAllUsers();
-  const user = users.find((elem) => elem.id === id)
+  const userRepository = getRepository(UserDB);
+  const user = await userRepository.findOne(id);
   if (!user) {
     reply.code(404);
     log.error(`User with such ID ${id} doesn't exist`);
@@ -50,7 +50,7 @@ export const getUser = (req: CustomRequest, reply: FastifyReply) => {
  * @returns - new user
  */
 
-export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
+export const addUser = async (req: FastifyRequest, reply: FastifyReply) => {
   const { name, login, password} = <User> req.body;
   const user = {
     id: uuidv4(),
@@ -58,10 +58,12 @@ export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
     login,
     password
   }
-  addInUsers(user);
 
+  const userRepository = getRepository(UserDB);
+
+  const userNew = await userRepository.create(user);
+  await userRepository.save(userNew);
   const userShown = {id: user.id, name: user.name, login: user.login};
-
   reply.code(201).send(userShown)
 }
 
@@ -72,29 +74,14 @@ export const addUser = (req: FastifyRequest, reply: FastifyReply) => {
  * @returns - message, that person was deleted
  */
 
-export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
+export const deleteUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
 
-  const users = getAllUsers();
-  const user = users.find((elem) => elem.id === id)
-  if (!user) {
-    reply.code(404);
-    log.error(`User with such ID ${id} doesn't exist`);
-    throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
-  }
+  const userRepository = getRepository(UserDB);
+  await userRepository.delete(id);
 
-  const tasks = getAllTasks();
-  const tasksWithId = tasks.filter(elem => elem.userId === id);
-  if (tasksWithId.length) {
-    tasksWithId.forEach(task => {
-      const taskNew = task;
-      taskNew.userId = null;
-      if (task.id) {
-        changeInTasks(task.id, taskNew);
-      }
-    })
-  }
-  deleteInUsers(id);
+  const taskRepository = getRepository(TaskDB);
+  await taskRepository.update({ userId: id }, { userId: null });
 
   reply.send({ message: `User ${id} has been removed` })
 }
@@ -106,21 +93,20 @@ export const deleteUser = (req: CustomRequest, reply: FastifyReply) => {
  * @returns - changed user
  */
 
-export const updateUser = (req: CustomRequest, reply: FastifyReply) => {
+export const updateUser = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params;
-  const { name, login, password} = req.body;
+  const { name, login } = req.body;
 
-  const users = getAllUsers();
-  const user = users.find((elem) => elem.id === id)
+  const userShown = { id, name, login };
+
+  const userRepository = getRepository(UserDB);
+  const user = await userRepository.findOne(id);
   if (!user) {
     reply.code(404);
     log.error(`User with such ID ${id} doesn't exist`);
     throw new CustomError(`User with such ID ${id} doesn't exist`, 404);
   }
-
-  changeInUsers(id, { name, login, password })
-
-  const userShown = { id, name, login };
-
-  reply.send(userShown);
+  userRepository.merge(user, req.body);
+  await userRepository.save(user);
+  return reply.send(userShown);
 }

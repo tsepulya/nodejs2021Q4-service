@@ -6,8 +6,8 @@ COPY package*.json .
 
 RUN npm install
 
-COPY /src .
+COPY . .
 
 EXPOSE ${PORT}
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:docker"]

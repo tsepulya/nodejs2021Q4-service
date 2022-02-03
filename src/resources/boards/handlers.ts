@@ -1,10 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify";
+import { getRepository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { BoardDB } from "../../entity/BoardDB";
+import { TaskDB } from "../../entity/TaskDB";
 import CustomError from "../../errors";
 import { log } from "../../logging";
-import { deleteInTasks, getAllTasks } from "../tasks/service";
-import { getAllBoards, addInBoards, deleteInBoards, changeInBoards } from "./service";
 import { CustomRequest } from "./types";
+
+const RELATIONS = { relations: ['columns'] };
 
 /**
  * handler for get method for boards router
@@ -13,8 +16,8 @@ import { CustomRequest } from "./types";
  * @returns - array of boards
  */
 
-export const getBoards = (req: FastifyRequest, reply: FastifyReply) => {
-  const boards = getAllBoards();
+export const getBoards = async (req: FastifyRequest, reply: FastifyReply) => {
+  const boards = await getRepository(BoardDB).find(RELATIONS);
   reply.send(boards);
 }
 
@@ -26,17 +29,16 @@ export const getBoards = (req: FastifyRequest, reply: FastifyReply) => {
  * @throws {@link NotFound} if board wasn't found
  */
 
-export const getBoard = (req: CustomRequest, reply: FastifyReply) => {
+export const getBoard = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
-  const boards = getAllBoards();
-  const board = boards.find((elem) => elem.id === id)
-  if (board) {
-    reply.send(board)
-  } else {
+  const boardRepository = getRepository(BoardDB);
+  const board = await boardRepository.findOne(id, RELATIONS);
+  if (!board) {
     reply.code(404);
     log.error(`Board with such ID ${id} doesn't exist`);
     throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
   }
+  reply.send(board);
 }
 
 /**
@@ -46,7 +48,7 @@ export const getBoard = (req: CustomRequest, reply: FastifyReply) => {
  * @returns - new board
  */
 
-export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
+export const addBoard = async (req: CustomRequest, reply: FastifyReply) => {
   const { title, columns } = req.body
   const board = {
     id: uuidv4(),
@@ -54,14 +56,13 @@ export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
     columns
   }
 
-  board.columns.forEach(elem => {
-    const elem1 = elem;
-    elem1.id = uuidv4();
-  });
+  const boardRepository = getRepository(BoardDB);
 
-  addInBoards(board);
+  const boardNew = await boardRepository.create(board);
+  await boardRepository.save(boardNew);
 
-  reply.code(201).send(board)
+  reply.code(201).send(boardNew)
+
 }
 
 /**
@@ -71,29 +72,20 @@ export const addBoard = (req: CustomRequest, reply: FastifyReply) => {
  * @returns - message, that board was deleted
  */
 
-export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
+export const deleteBoard = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
-  
-  const boards = getAllBoards();
-  const board = boards.find((elem) => elem.id === id)
+
+  const boardRepository = getRepository(BoardDB);
+  const board = await boardRepository.findOne(id);
   if (!board) {
     reply.code(404);
     log.error(`Board with such ID ${id} doesn't exist`);
     throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
   }
+  await boardRepository.delete(id);
 
-  const tasks = getAllTasks();
-  const tasksWithId = tasks.filter(elem => elem.boardId === id);
-  if (tasksWithId.length) {
-    tasksWithId.forEach(task => {
-      if (task.id) {
-        deleteInTasks(task.id);
-      }
-    })
-  }
-
-  deleteInBoards(id);
-
+  const taskRepository = getRepository(TaskDB);
+  await taskRepository.delete({ boardId: id });
 
   reply.send({ message: `Board ${id} has been removed` })
 }
@@ -105,19 +97,18 @@ export const deleteBoard = (req: CustomRequest, reply: FastifyReply) => {
  * @returns - changed board
  */
 
-export const updateBoard = (req: CustomRequest, reply: FastifyReply) => {
+export const updateBoard = async (req: CustomRequest, reply: FastifyReply) => {
   const { id } = req.params
 
-  const boards = getAllBoards();
-  const board = boards.find((elem) => elem.id === id)
+  const boardRepository = getRepository(BoardDB);
+  const board = await boardRepository.findOne(id);
   if (!board) {
     reply.code(404);
     log.error(`Board with such ID ${id} doesn't exist`);
     throw new CustomError(`Board with such ID ${id} doesn't exist`, 404);
   }
-
-  const { title, columns } = req.body
-  changeInBoards(id, {title, columns} )
-
-  reply.send({ id, title, columns });
+  const updatedBoard = { ...board, ...req.body };
+  await boardRepository.save(updatedBoard);
+  const newBoard = await boardRepository.findOne(id, RELATIONS);
+  reply.send(newBoard);
 }

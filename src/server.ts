@@ -1,10 +1,12 @@
 import fastify, {FastifyInstance} from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
+import { createConnection } from "typeorm";
 import { userRoutes } from './resources/users/routes';
 import { boardRoutes } from './resources/boards/routes';
 import { taskRoutes } from "./resources/tasks/routes";
 import { PORT } from "./common/config";
 import { log } from "./logging";
+import connectionOptions from "./ormconfig";
 
 /**
  * create fastify instance with some config
@@ -16,6 +18,8 @@ export const server: FastifyInstance<
   ServerResponse
 > = fastify({logger: log
 });
+
+createConnection(connectionOptions);
 
 const handleUncaughtException = () => {
   process.on('uncaughtException', ()=> {
@@ -36,8 +40,6 @@ handleUnhandledRejection();
  * activate plugins - a set of routes: user, boards, task
  */
 
-// eslint-disable-next-line func-names
-// eslint-disable-next-line no-unused-vars
 server.setNotFoundHandler((request, reply) => {
   reply.status(404).send(`Route ${request.url} not found.`);
   log.error(`Route ${request.url} not found`);
@@ -85,3 +87,4 @@ const start = async () => {
 }
 
 start();
+

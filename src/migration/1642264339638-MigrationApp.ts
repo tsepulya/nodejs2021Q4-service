@@ -112,6 +112,17 @@ export class MigrationApp1642264339638 implements MigrationInterface {
             onDelete: "CASCADE"
         }));
 
+        await queryRunner
+        .manager
+        .createQueryBuilder()
+        .insert()
+        .into("user_db")
+        .values({id: "56629930-ba59-436e-94a7-ca29b294f3e9",
+            name: "Somebody",
+            login: "admin",
+            password: "$2a$10$o2.UawkUECYY0OlJADjqS.Jv/OWChxHwXyx51wWQvo0x3RvgrWPZO"})
+        .execute()
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

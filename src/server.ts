@@ -4,6 +4,7 @@ import { createConnection } from "typeorm";
 import { userRoutes } from './resources/users/routes';
 import { boardRoutes } from './resources/boards/routes';
 import { taskRoutes } from "./resources/tasks/routes";
+import { loginRoutes } from "./resources/login/routes";
 import { PORT } from "./common/config";
 import { log } from "./logging";
 import connectionOptions from "./ormconfig";
@@ -48,6 +49,7 @@ server.setNotFoundHandler((request, reply) => {
 server.register(userRoutes);
 server.register(boardRoutes);
 server.register(taskRoutes);
+server.register(loginRoutes);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // eslint-disable-next-line no-unused-vars

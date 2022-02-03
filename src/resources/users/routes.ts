@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyServerOptions } from 'fastify';
+import { checkToken } from '../login/checkToken';
 import {
     getUsers,
     getUser,
@@ -26,6 +27,7 @@ import {
         },
       },
     },
+    preHandler: checkToken,
     handler: getUsers,
   }
   
@@ -35,6 +37,7 @@ import {
         200: User,
       },
     },
+    preHandler: checkToken,
     handler: getUser,
   }
   
@@ -53,6 +56,7 @@ import {
         201: User,
       },
     },
+    preHandler: checkToken,
     handler: addUser,
   }
   
@@ -67,6 +71,7 @@ import {
         },
       },
     },
+    preHandler: checkToken,
     handler: deleteUser,
   }
   
@@ -76,6 +81,7 @@ import {
         200: User,
       },
     },
+    preHandler: checkToken,
     handler: updateUser,
   }
   

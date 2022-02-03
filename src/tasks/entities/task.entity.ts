@@ -1,6 +1,7 @@
+import { TASK_DB } from 'src/common/constants';
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: 'task_db' })
+@Entity({ name: TASK_DB })
 export class TaskDB {
   @PrimaryColumn()
   id!: string;

@@ -4,20 +4,20 @@ import { v4 as uuidv4 } from 'uuid';
 import { TaskDB } from 'src/tasks/entities/task.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardDB } from './entities/board.entity';
+import { BOARD_REPOSITORY, TASK_REPOSITORY } from 'src/common/constants';
 
 const RELATIONS = { relations: ['columns'] };
 
 @Injectable()
 export class BoardsService {
   constructor(
-    @Inject('BOARD_REPOSITORY')
+    @Inject(BOARD_REPOSITORY)
     private boardsRepository: Repository<BoardDB>,
-    @Inject('TASK_REPOSITORY')
+    @Inject(TASK_REPOSITORY)
     private tasksRepository: Repository<TaskDB>,
   ) {}
 
   async create(createBoardDto: CreateBoardDto) {
-    // return 'This action adds a new board';
     const { title, columns } = createBoardDto;
     const board = {
       id: uuidv4(),
@@ -36,7 +36,6 @@ export class BoardsService {
   }
 
   async findOne(id: string) {
-    // return `This action returns a #${id} board`;
 
     const board = await this.boardsRepository.findOne(id, RELATIONS);
     if (!board) {
@@ -47,7 +46,6 @@ export class BoardsService {
   }
 
   async update(id: string, createBoardDto: CreateBoardDto) {
-    // return `This action updates a #${id} board`;
 
     const board = await this.boardsRepository.findOne(id);
     if (!board) {
@@ -60,7 +58,6 @@ export class BoardsService {
   }
 
   async remove(id: string) {
-    // return `This action removes a #${id} board`;
 
     const board = await this.boardsRepository.findOne(id);
     if (!board) {

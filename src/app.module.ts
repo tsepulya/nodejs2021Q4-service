@@ -1,8 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
@@ -40,8 +38,6 @@ import { LoggerMiddleware } from './logger.middleware';
         ],
       })
     ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 
 export class AppModule implements NestModule {

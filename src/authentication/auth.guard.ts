@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import * as jwt from 'jsonwebtoken';
-
-const SECRET = <string>process.env.SECRET_KEY || 'SOME_SECRET';
+import { SECRET_KEY } from 'src/common/config';
+import { BEARER } from 'src/common/constants';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -23,11 +23,11 @@ export class JwtAuthGuard implements CanActivate {
         if (tokenStr) {
           const [type, token] = tokenStr.split(' ');
 
-          if (type !== 'Bearer') {
+          if (type !== BEARER) {
             throw new UnauthorizedException('Unauthorized user');
           }
           try {
-            jwt.verify(token, SECRET);
+            jwt.verify(token, SECRET_KEY);
             return true;
           } catch (e) {
             throw new UnauthorizedException('Unauthorized user');

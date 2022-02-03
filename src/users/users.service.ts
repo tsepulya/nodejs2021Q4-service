@@ -5,14 +5,15 @@ import { TaskDB } from 'src/tasks/entities/task.entity';
 import { UserDB } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersHashHelper } from './users.hashHelper';
+import { TASK_REPOSITORY, USER_REPOSITORY } from 'src/common/constants';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USER_REPOSITORY')
+    @Inject(USER_REPOSITORY)
     private usersRepository: Repository<UserDB>,
     private usersHashHelper: UsersHashHelper,
-    @Inject('TASK_REPOSITORY')
+    @Inject(TASK_REPOSITORY)
     private tasksRepository: Repository<TaskDB>,
     
   ) {}

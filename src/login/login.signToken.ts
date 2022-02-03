@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
+import { SECRET_KEY } from 'src/common/config';
 import { UsersHashHelper } from 'src/users/users.hashHelper';
 import { UsersService } from 'src/users/users.service';
 
-const SECRET = <string>process.env.SECRET_KEY || 'SOME_SECRET';
 
 @Injectable()
 export class LoginSignToken {
@@ -26,7 +26,7 @@ export class LoginSignToken {
       );
       if (isSimilar) {
         const { id, login } = user;
-        const token = jwt.sign({ id, login }, SECRET);
+        const token = jwt.sign({ id, login }, SECRET_KEY);
         return token;
       }
     }

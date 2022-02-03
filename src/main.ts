@@ -1,17 +1,18 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { HOST, PORT, POSTGRES_HOST } from './common/config';
+import { ADDRESS, DOCKER } from './common/constants';
 import { HttpExceptionFilter } from './exceptionFilters/exception.filters';
 
-const PORT = 4000;
-const HOST = process.env.NODE_ENV === 'docker' ? 'my_database' : 'localhost';
+const HOST_APP = process.env.NODE_ENV === DOCKER ? POSTGRES_HOST : HOST;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   // app.useGlobalFilters(new HttpExceptionFilter());
-  if (HOST === 'my_database') {
-    await app.listen(PORT, '0.0.0.0');
+  if (HOST_APP === POSTGRES_HOST) {
+    await app.listen(PORT, ADDRESS);
   } else {
     await app.listen(PORT);
   }

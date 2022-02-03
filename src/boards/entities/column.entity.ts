@@ -1,7 +1,8 @@
+import { COLUMN_DB } from 'src/common/constants';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { BoardDB } from './board.entity';
 
-@Entity({ name: 'column_db' })
+@Entity({ name: COLUMN_DB })
 export class ColumnDB {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

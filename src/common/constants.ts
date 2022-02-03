@@ -1,0 +1,11 @@
+export const DOCKER = 'docker';
+export const ADDRESS = '0.0.0.0';
+export const BEARER = 'Bearer';
+export const BOARD_DB = 'board_db';
+export const COLUMN_DB = 'column_db';
+export const USER_DB = 'user_db';
+export const TASK_DB = 'task_db';
+export const BOARD_REPOSITORY = 'BOARD_REPOSITORY';
+export const TASK_REPOSITORY = 'TASK_REPOSITORY';
+export const USER_REPOSITORY = 'USER_REPOSITORY';
+export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';

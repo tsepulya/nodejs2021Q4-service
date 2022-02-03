@@ -1,43 +1,23 @@
 import { ConnectionOptions } from 'typeorm';
-// import dotenv from 'dotenv';
-// import path from 'path';
+import { POSTGRES_HOST, HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_ENTITIES, POSTGRES_MIGRATIONS, POSTGRES_MIGRATIONS_DIR } from './common/config';
+import { DOCKER } from './common/constants';
 
-// dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`)});
-
-const HOST = process.env.NODE_ENV === 'docker' ? 'my_database' : 'localhost';
-
-// const connectionOptions = {
-//   type: 'postgres',
-//   host: HOST,
-//   port: process.env.POSTGRES_PORT,
-//   username: process.env.POSTGRES_USER,
-//   password: process.env.POSTGRES_PASSWORD,
-//   database: process.env.POSTGRES_DB,
-//   entities: [process.env.POSTGRES_ENTITIES] || ['./src/**.entity/*.ts'],
-//   synchronize: false,
-//   migrationsRun: true,
-//   migrations: [process.env.POSTGRES_MIGRATIONS] || ['./src/migration/*.ts'],
-//   cli: {
-//     migrationsDir: process.env.POSTGRES_MIGRATIONS_DIR || './src/migration',
-//   },
-// } as ConnectionOptions;
-
-// export default connectionOptions;
+const HOST_APP = process.env.NODE_ENV === DOCKER ? POSTGRES_HOST : HOST;
 
 const connectionOptions = {
   type: 'postgres',
-        host: HOST,
-        port: 5432,
-        username: 'postgres',
-        password: 'postgres',
-        database: 'postgres',
-        entities: ['dist/**/*.entity.js'],
-        synchronize: false,
-        migrationsRun: true,
-        migrations: ['dist/migration/*{.ts,.js}'],
-        cli: {
-          migrationsDir: 'dist/migration' || './dist/migration',
-        },
+  host: HOST_APP,
+  port: POSTGRES_PORT,
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  database: POSTGRES_DB,
+  entities: [POSTGRES_ENTITIES],
+  synchronize: false,
+  migrationsRun: true,
+  migrations: [POSTGRES_MIGRATIONS],
+  cli: {
+    migrationsDir: POSTGRES_MIGRATIONS_DIR,
+  },
 } as ConnectionOptions;
 
 export default connectionOptions;

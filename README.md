@@ -71,3 +71,31 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+# Express
+|                             |                                  |
+|-----------------------------|----------------------------------|
+| **Summary**                                                    |
+| Test duration               | 40 sec                           |
+| Virtual Users created       | 150                              |
+| Virtual Users completed     | 150                              |
+| **Scenario counts**                                            |
+| 1                           | 82 (54.667%)                     |
+| Test users route            | 68 (45.333%)                     |
+| Errors                      | Test completed without           |
+|                             |   network or OS errors.          |
+| **Counters**                                                   |
+| vusers.created_by_name.1    | 82                               |
+| vusers.created              | 150                              |
+| http.requests               | 410                              |
+| http.codes.200              | 328                              |
+| http.responses              | 410                              |
+
+<img src="test-results/express-response-time.png" alt="express-response-time" width="50%"  height="50%">
+<img src="test-results/express-session-length.png" alt="express-session-length" width="50%"  height="50%">
+
+
+
+
+# Fastify

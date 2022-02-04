@@ -96,6 +96,24 @@ Nest is [MIT licensed](LICENSE).
 <img src="test-results/express-session-length.png" alt="express-session-length" width="50%"  height="50%">
 
 
-
-
 # Fastify
+|                             |                                  |
+|-----------------------------|----------------------------------|
+| **Summary**                                                    |
+| Test duration               | 30 sec                           |
+| Virtual Users created       | 100                              |
+| Virtual Users completed     | 100                              |
+| **Scenario counts**                                            |
+| 1                           | 46 (46%)                     |
+| Test users route            | 54 (54%)                     |
+| Errors                      | Test completed without           |
+|                             |   network or OS errors.          |
+| **Counters**                                                   |
+| vusers.created_by_name.1    | 46                               |
+| vusers.created              | 100                              |
+| http.requests               | 230                              |
+| http.codes.200              | 184                              |
+| http.responses              | 230                              |
+
+<img src="test-results/fastify-response-time.png" alt="fastify-response-time" width="50%"  height="50%">
+<img src="test-results/fastify-session-length.png" alt="fastify-session-length" width="50%"  height="50%">

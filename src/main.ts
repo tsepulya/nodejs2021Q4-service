@@ -15,12 +15,13 @@ async function bootstrap() {
       new FastifyAdapter()
     );
     app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalFilters(new HttpExceptionFilter());
     await app.listen(PORT, ADDRESS);
 
   } else {
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
-    // app.useGlobalFilters(new HttpExceptionFilter());
+    app.useGlobalFilters(new HttpExceptionFilter());
     if (HOST_APP === POSTGRES_HOST) {
       await app.listen(PORT, ADDRESS);
     } else {

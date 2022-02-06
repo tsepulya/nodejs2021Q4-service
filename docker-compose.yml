@@ -25,6 +25,7 @@ services:
     volumes:
       - ./:/app
       - vol-logs:/src/logs
+      - upload-files:/src/saved-files
     networks:
       - app-network
     command: npm run start:docker
@@ -38,3 +39,4 @@ networks:
 volumes:
   vol-logs:
   postgres-data:
+  upload-files:

@@ -1,3 +1,4 @@
+import { DocumentBuilder } from "@nestjs/swagger";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -15,4 +16,10 @@ const HOST = process.env.HOST;
 const POSTGRES_HOST = process.env.POSTGRES_HOST;
 const USE_FASTIFY = process.env.USE_FASTIFY;
 
-export { PORT, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_ENTITIES, POSTGRES_MIGRATIONS, POSTGRES_MIGRATIONS_DIR, SECRET_KEY, HOST, POSTGRES_HOST, USE_FASTIFY };
+const configSwagger = new DocumentBuilder()
+  .setTitle('REST service на NEST JS')
+  .setDescription('Документация к REST API')
+  .setVersion('1.0.0')
+  .build()
+
+export { PORT, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_ENTITIES, POSTGRES_MIGRATIONS, POSTGRES_MIGRATIONS_DIR, SECRET_KEY, HOST, POSTGRES_HOST, USE_FASTIFY, configSwagger };

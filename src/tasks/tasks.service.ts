@@ -58,7 +58,5 @@ export class TasksService {
       throw new NotFoundException(`Task with such ID ${id} doesn't exist`);
     }
     await this.tasksRepository.delete(id);
-
-    return `Task ${id} has been removed`;
   }
 }

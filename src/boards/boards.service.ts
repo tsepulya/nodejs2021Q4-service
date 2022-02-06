@@ -67,7 +67,5 @@ export class BoardsService {
     await this.boardsRepository.delete(id);
 
     await this.tasksRepository.delete({ boardId: id });
-
-    return `Board ${id} has been removed`;
   }
 }

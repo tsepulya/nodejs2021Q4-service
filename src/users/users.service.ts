@@ -90,7 +90,5 @@ export class UsersService {
     await this.usersRepository.delete(id);
 
     await this.tasksRepository.update({ userId: id }, { userId: null });
-
-    return `User ${id} has been removed`;
   }
 }

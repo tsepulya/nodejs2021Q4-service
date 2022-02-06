@@ -26,11 +26,6 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
-
-```bash
-$ npm install
-```
 
 ## Running the app
 
@@ -47,15 +42,8 @@ $ npm run start:prod
 
 ## Test
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+$ npm run test:auth
 ```
 
 ## Support
@@ -117,3 +105,27 @@ Nest is [MIT licensed](LICENSE).
 
 <img src="test-results/fastify-response-time.png" alt="fastify-response-time" width="50%"  height="50%">
 <img src="test-results/fastify-session-length.png" alt="fastify-session-length" width="50%"  height="50%">
+
+## Download the repository
+1. Clone repository
+```
+git clone https://github.com/tsepulya/nodejs2021Q4-service.git
+```
+2. Go to folder 'nodejs2021Q4-service'
+
+3. Change the branch to 'nest'
+
+4. Install NPM modules
+
+## Usage of app
+1. You can run app by:
+```
+npm start
+```
+2. You can run by Docker:
+```
+docker-compose up
+```
+
+## Documentation of app
+You can see full documentation about all entrypoints at the 'http://localhost:4000/doc' after running app
